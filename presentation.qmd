@@ -284,7 +284,7 @@ Download the GitHub Desktop for Windows or MacOS [**here**](https://github.com/a
 
 ## 3. Integrating multiple languages
 
-[![](images/quarto.jpeg){fig-align="center" width="350"}](https://www.quarto.org/)
+<!-- [![](images/quarto.jpeg){fig-align="center" width="350"}](https://www.quarto.org/) -->
 
 ## 3. Integrating multiple languages: What's the remaining challenge?
 
