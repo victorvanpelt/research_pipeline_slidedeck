@@ -410,7 +410,7 @@ Usage:
 
 \begin{wrapfigure}{r}{0.37\textwidth}
   \vspace{-0.5cm}
-  \includegraphics[width=0.41\textwidth]{"images/profile.jpg"}
+  \includegraphics[width=0.41\textwidth]{"images/profile.png"}
 \end{wrapfigure}
 
 Dr. Victor van Pelt\
