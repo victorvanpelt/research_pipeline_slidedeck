@@ -1,0 +1,1656 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+]{beamer}
+\newif\ifbibliography
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% remove section numbering
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{section title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{subsection title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+% WHU beamer theme (16:9) - v3
+% Usage: \input{materials/beamer_theme_16x9.sty}
+\ProvidesFile{00_theme.sty}[2026/03/13 WHU beamer theme v3]
+
+\mode<presentation>
+
+% ── Package dependencies ────────────────────────────────────────
+\RequirePackage{tikz}
+\usetikzlibrary{calc,positioning,arrows.meta,shapes.geometric,fit,backgrounds}
+\RequirePackage{etoolbox}
+\RequirePackage{ifxetex}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{ragged2e}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{appendixnumberbeamer}
+
+% ── Fonts ───────────────────────────────────────────────────────
+\RequirePackage{lmodern}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+
+% ── Colors ──────────────────────────────────────────────────────
+\definecolor{whu_blue}{RGB}{5,70,150}
+\definecolor{whu_lightblue}{RGB}{0,165,220}
+\definecolor{whu_silvergray}{RGB}{230,235,240}
+\definecolor{whu_anthracite}{RGB}{80,84,89}
+\definecolor{whu_darkgray}{RGB}{60,60,60}
+\definecolor{whu_accent_green}{RGB}{0,128,85}
+\definecolor{whu_accent_red}{RGB}{180,40,40}
+\definecolor{whu_accent_orange}{RGB}{210,120,20}
+\definecolor{whu_lightgreen}{RGB}{230,245,235}
+\definecolor{whu_lightred}{RGB}{250,235,235}
+
+% ── Global beamer color setup ───────────────────────────────────
+\setbeamercolor*{title}{fg=whu_blue}
+\setbeamercolor*{subtitle}{fg=whu_blue}
+\setbeamercolor*{title page header}{fg=whu_blue}
+\setbeamercolor*{author}{fg=whu_blue}
+\setbeamercolor*{institute}{fg=white}
+\setbeamercolor*{date}{fg=white}
+\setbeamercolor*{normal text}{fg=black}
+
+% Items
+\setbeamercolor*{item}{fg=whu_blue}
+\setbeamercolor*{itemize item}{fg=whu_blue}
+\setbeamercolor*{itemize subitem}{parent=itemize item}
+\setbeamercolor*{itemize subsubitem}{parent=itemize item}
+\setbeamercolor*{enumerate item}{fg=whu_blue}
+\setbeamercolor*{enumerate subitem}{parent=enumerate item}
+\setbeamercolor*{description item}{fg=whu_blue}
+\setbeamerfont{description item}{series=\bfseries}
+
+\setbeamercolor*{frametitle}{fg=whu_blue}
+\setbeamercolor*{page number in head/foot}{fg=whu_blue}
+
+% Blocks
+\setbeamercolor*{block title}{fg=whu_blue,bg=whu_silvergray}
+\setbeamercolor*{block body}{fg=black,bg=whu_silvergray!30}
+\setbeamercolor*{block title alerted}{fg=white,bg=whu_accent_red}
+\setbeamercolor*{block body alerted}{fg=black,bg=whu_lightred}
+\setbeamercolor*{block title example}{fg=white,bg=whu_accent_green}
+\setbeamercolor*{block body example}{fg=black,bg=whu_lightgreen}
+
+% ── Font sizes ──────────────────────────────────────────────────
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{subtitle}{size=\large}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\small}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamerfont{footnote}{size=\tiny}
+
+% ── Hyperlinks ──────────────────────────────────────────────────
+\hypersetup{colorlinks=true,urlcolor=whu_lightblue,linkcolor=whu_lightblue}
+
+% ── Navigation / footline ──────────────────────────────────────
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{footline}[frame number]
+
+% ── Background ──────────────────────────────────────────────────
+\setbeamertemplate{background}{%
+  \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \ifnum\thepage=1\relax
+      \fill[white] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+      \fill[whu_blue!60] (0,0) rectangle(1.5,1.9);
+      \fill[whu_blue] (1.6,0) rectangle(\the\paperwidth,1.9);
+      \node[anchor=west,text=white,font=\small] at (1.7,1.18) {\insertinstitute};
+      \node[anchor=west,text=white,font=\small] at (1.7,0.6) {\insertdate};
+    \else
+      \fill[white] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \fi
+  \end{tikzpicture}%
+}
+
+% ── Title page ──────────────────────────────────────────────────
+\defbeamertemplate*{title page}{whu266}[1][]
+{%
+  \vskip.5cm
+  \includegraphics[keepaspectratio,height=1.5cm]{materials/00_whu_logo.png}
+  \vskip1.5cm
+  \begin{beamercolorbox}[wd=12cm,leftskip=0.6cm,#1]{title page header}
+    \usebeamerfont{title}\inserttitle\par
+    \usebeamerfont{subtitle}\insertsubtitle\par
+  \end{beamercolorbox}
+  \vskip1.5cm
+  \begin{beamercolorbox}[wd=12cm,leftskip=0.6cm,sep=1pt,#1]{author}
+    \usebeamerfont{author}\insertauthor
+  \end{beamercolorbox}
+  % institute + date are drawn onto the bottom bar by the page-1 background
+  % template (so the date is never clipped). Reserve their original vertical
+  % footprint here so the title and author keep their previous position.
+  \vskip2.05cm
+  \vfil
+}
+\setbeamertemplate{title page}[whu266]
+
+% ── Items / ToC ─────────────────────────────────────────────────
+\setbeamertemplate{items}[square]
+\setbeamertemplate{sections/subsections in toc}[square]
+
+% ── Frame title ─────────────────────────────────────────────────
+\makeatletter
+\defbeamertemplate*{frametitle}{whu266}[1][]
+{%
+  \vskip0.6cm%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.5cm]{frametitle}
+    \begin{tikzpicture}
+      \useasboundingbox[fill=white] (0,0) rectangle(\the\paperwidth,0.5);
+      \fill[whu_blue!60] (0,0) rectangle(1.5,1.2);
+      \fill[whu_blue] (1.6,0) rectangle(\the\paperwidth,1.2);
+      \ifx\insertframesubtitle\@empty%
+        \node[anchor=west,white,font=\large] at (1.7,0.6) {\insertframetitle};
+      \else%
+        \node[anchor=west,white,font=\large] at (1.7,0.75) {\insertframetitle};
+        \node[anchor=west,white,font=\small] at (1.7,0.35) {\insertframesubtitle};
+      \fi
+    \end{tikzpicture}
+  \end{beamercolorbox}
+}
+\makeatother
+\setbeamertemplate{frametitle}[whu266]
+
+% ═════════════════════════════════════════════════════════════════
+% UTILITY MACROS - Full toolkit for varied slide layouts
+% ═════════════════════════════════════════════════════════════════
+
+% ── Section divider slide ───────────────────────────────────────
+% Usage: \sectionslide{Section Title}
+\newcommand{\sectionslide}[1]{%
+  \begin{frame}[plain]
+    \vfill
+    \hspace*{-\dimexpr(\paperwidth-\textwidth)/2\relax}%
+    \makebox[0pt][l]{%
+    \begin{tikzpicture}
+      \useasboundingbox (0,0) rectangle(\the\paperwidth,3);
+      \fill[whu_blue!60] (0,1.0) rectangle(1.5,2.2);
+      \fill[whu_blue] (1.6,1.0) rectangle(\the\paperwidth,2.2);
+      \node[anchor=west,white,font=\LARGE\bfseries] at (1.7,1.6) {#1};
+    \end{tikzpicture}%
+    }
+    \vfill
+  \end{frame}%
+}
+
+% ── Highlight box (gray background) ────────────────────────────
+% Usage: \highlightbox{Key definition or important text.}
+\newcommand{\highlightbox}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_silvergray,rounded corners=3pt,inner sep=8pt,
+          text width=\linewidth-20pt] {#1};
+  \end{tikzpicture}%
+}
+
+% ── Source citation at bottom of slide ─────────────────────────
+% Usage: \source{Author (Year)}
+\newcommand{\source}[1]{%
+  \vfill
+  {\usebeamerfont{footnote}\textcolor{whu_anthracite}{Source: #1}}%
+}
+
+% ── Single stat callout ────────────────────────────────────────
+% Usage: \statcallout{42\%}{of firms use AI in forecasting}
+\newcommand{\statcallout}[2]{%
+  \begin{center}
+    {\fontsize{42}{48}\selectfont\textcolor{whu_blue}{\textbf{#1}}}\\[4pt]
+    {\large\textcolor{whu_anthracite}{#2}}
+  \end{center}%
+}
+
+% ── Double stat callout (side-by-side numbers) ─────────────────
+% Usage: \doublestat{73\%}{use quantitative}{12\%}{use mixed methods}
+\newcommand{\doublestat}[4]{%
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{center}
+        {\fontsize{38}{44}\selectfont\textcolor{whu_blue}{\textbf{#1}}}\\[4pt]
+        {\normalsize\textcolor{whu_anthracite}{#2}}
+      \end{center}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{center}
+        {\fontsize{38}{44}\selectfont\textcolor{whu_accent_green}{\textbf{#3}}}\\[4pt]
+        {\normalsize\textcolor{whu_anthracite}{#4}}
+      \end{center}
+    \end{column}
+  \end{columns}%
+}
+
+% ── Discussion prompt box ──────────────────────────────────────
+%Usage: \discussionprompt{What would you do if...?}
+% \newcommand{\discussionprompt}[1]{%
+%   \begin{tikzpicture}
+%     \node[fill=whu_blue!10,draw=whu_blue,rounded corners=4pt,
+%           inner sep=10pt,text width=\linewidth-24pt,
+%           font=\large\itshape] {#1};
+%   \end{tikzpicture}%
+% }
+
+\newcommand{\discussionprompt}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,rounded corners=4pt,
+          inner sep=10pt,text width=\linewidth-24pt] {#1};
+  \end{tikzpicture}%
+}
+
+% ── How box ───────────────────────────────────────────
+% Usage: \how{The main point the student should remember.}
+\newcommand{\how}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,line width=0.8pt,
+          rounded corners=4pt,inner sep=10pt,
+          text width=\linewidth-24pt] {%
+      {\textbf{\textcolor{whu_blue}{How?}} #1}%
+    };
+  \end{tikzpicture}%
+}
+
+% ── Key takeaway box ───────────────────────────────────────────
+% Usage: \takeaway{The main point the student should remember.}
+\newcommand{\takeaway}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,line width=0.8pt,
+          rounded corners=4pt,inner sep=10pt,
+          text width=\linewidth-24pt] {%
+      {\textbf{\textcolor{whu_blue}{Key takeaway:}} #1}%
+    };
+  \end{tikzpicture}%
+}
+
+% ── Quote / Epigraph ──────────────────────────────────────────
+% Usage: \epigraphslide{The quote text here.}{Author Name}
+\newcommand{\epigraphslide}[2]{%
+  \vfill
+  \begin{center}
+    \begin{minipage}{0.8\linewidth}
+      {\Large\itshape\textcolor{whu_anthracite}{``#1''}}\\[10pt]
+      \hfill{\normalsize\textcolor{whu_blue}{\textbf{--- #2}}}
+    \end{minipage}
+  \end{center}
+  \vfill
+}
+
+% ── Horizontal process flow ────────────────────────────────────
+% Usage: \process{Step 1,Step 2,Step 3,Step 4}
+% Usage: \process{Step 1/whu_lightblue,Step 2,Step 3}
+\newcommand{\process}[1]{%
+  \begin{center}
+  \begin{tikzpicture}[
+    node distance=0.3cm,
+    flowstep/.style={rectangle,rounded corners=3pt,fill=whu_blue,
+                 text=white,font=\small\bfseries,
+                 minimum height=0.9cm,minimum width=2.4cm,
+                 text width=2.2cm,align=center},
+    arr/.style={-{Stealth[length=5pt]},line width=1.2pt,whu_lightblue}
+  ]
+    \foreach \s/\c [count=\i] in {#1} {
+      \edef\nodecolor{\c}%
+      \edef\nodelabel{\s}%
+      \ifx\nodecolor\nodelabel\def\nodecolor{whu_blue}\fi%
+      \ifnum\i=1
+        \node[flowstep,fill=\nodecolor] (s\i) {\s};
+      \else
+        \pgfmathtruncatemacro{\prev}{\i - 1}
+        \node[flowstep,fill=\nodecolor,right=of s\prev] (s\i) {\s};
+        \draw[arr] (s\prev) -- (s\i);
+      \fi
+    }
+  \end{tikzpicture}
+  \end{center}%
+}
+
+% ── Circular process cycle ─────────────────────────────────────
+% Usage: \processcycle{Step 1,Step 2,Step 3,Step 4}
+\newcommand{\processcycle}[1]{%
+  \xdef\totalsteps{0}%
+  \foreach \s/\c in {#1} {%
+    \pgfmathtruncatemacro{\tmp}{\totalsteps+1}%
+    \xdef\totalsteps{\tmp}%
+  }%
+  \begin{center}
+  \begin{tikzpicture}[
+    flowstep/.style={rectangle,rounded corners=3pt,fill=whu_blue,
+                 text=white,font=\small\bfseries,
+                 minimum height=0.9cm,minimum width=2.4cm,
+                 text width=2.2cm,align=center},
+    arr/.style={-{Stealth[length=5pt]},line width=1.2pt,whu_lightblue}
+  ]
+    \foreach \s/\c [count=\i] in {#1} {%
+      \edef\nodecolor{\c}%
+      \edef\nodelabel{\s}%
+      \ifx\nodecolor\nodelabel\def\nodecolor{whu_blue}\fi%
+      \pgfmathsetmacro{\angle}{90 - (\i-1)*360/\totalsteps}%
+      \node[flowstep,fill=\nodecolor] (s\i) at (\angle:3cm) {\s};%
+    }
+    \foreach \s/\c [count=\i] in {#1} {%
+      \pgfmathtruncatemacro{\next}{int(mod(\i,\totalsteps)+1)}%
+      \draw[arr] (s\i) -- (s\next);%
+    }
+  \end{tikzpicture}
+  \end{center}%
+}
+
+% ── Numbered step label (inline) ──────────────────────────────
+% Usage: \stepnum{1} First step description.
+\newcommand{\stepnum}[1]{%
+  \tikz[baseline=(num.base)]{
+    \node[fill=whu_blue,text=white,circle,inner sep=2pt,
+          font=\small\bfseries,minimum size=0.55cm] (num) {#1};
+  }%
+}
+
+% ── Comparison marks ──────────────────────────────────────────
+% Usage: \cmark and \xmark in tables and lists
+\newcommand{\cmark}{\textcolor{whu_accent_green}{\textbf{\checkmark}}}
+\providecommand{\xmark}{\textcolor{whu_accent_red}{\textbf{\texttimes}}}
+
+\mode<all>
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{newunicodechar}
+\newunicodechar{š}{\v{s}}
+\AtBeginSection[]{\sectionslide{\insertsectionhead}}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Data Management},
+  pdfauthor={Dr.~Victor van Pelt},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Data Management}
+\subtitle{Doctoral Orientation Week}
+\author{Dr.~Victor van Pelt}
+\date{July 2, 2026}
+\institute{WHU -- Otto Beisheim School of Management}
+
+\begin{document}
+\frame{\titlepage}
+
+
+\begin{frame}{Opening Question}
+\phantomsection\label{opening-question}
+Let's say you wrote your a research paper and your laptop died. How long
+would it take you to reproduce your analyses with a new laptop?
+
+\begin{enumerate}
+\item
+  Less than one hour (easy!)
+\item
+  Between one hour and a day (It's possible but painful)
+\item
+  More than one day (I'd be stuck)
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Why should YOU care about Data Management?}
+\phantomsection\label{why-should-you-care-about-data-management}
+\centering
+
+Storing data, code, and analyses can quickly turn into a mess:
+
+\begin{center}
+\includegraphics[width =0.6\textwidth]{"images/pic2.png"} \\
+\end{center}
+\end{frame}
+
+\begin{frame}{Why should YOU care about Data Management?}
+\phantomsection\label{why-should-you-care-about-data-management-1}
+\begin{center}
+Story Time!
+\bigbreak
+\includegraphics[width =0.50\textwidth]{"images/figure3.jpg"} \\
+\end{center}
+\end{frame}
+
+\begin{frame}{But there is more at stake!}
+\phantomsection\label{but-there-is-more-at-stake}
+\centering
+
+In 2019, \emph{Management Science} introduced a Data and Code Disclosure
+Policy:
+
+\emph{``Authors of accepted papers\ldots{} must provide\ldots{} the
+data, programs, and other details of the experiment and computations
+sufficient to permit replication.''}
+
+A 2023 study examined nearly 500 articles published under this policy to
+see if the results could, in fact, be reproduced (Fišar et al. 2023).
+
+\textbf{What share of these articles do you think were largely
+reproducible?}
+\end{frame}
+
+\begin{frame}{But there is more at stake!}
+\phantomsection\label{but-there-is-more-at-stake-1}
+\begin{center}
+\includegraphics[width =0.60\textwidth]{"images/figure2.png"} \\
+\end{center}
+
+\centering
+
+About 30\% of the articles could not be reproduced, even under the new
+policy (Fišar et al. 2023)
+\end{frame}
+
+\begin{frame}{But there is more at stake!}
+\phantomsection\label{but-there-is-more-at-stake-2}
+\centering
+
+\begin{itemize}
+\tightlist
+\item
+  Nearly one in three papers fails the reproducibility test.
+\item
+  This is why good data and code management is not only a ``nice to
+  have.''
+\item
+  It's also essential for credible research and for us to trust the
+  insights it produces.
+\item
+  But this does not just depends on how professors manage their data and
+  code.
+\item
+  It all starts with:
+\end{itemize}
+
+\begin{center}
+\includegraphics[width =0.20\textwidth]{"images/you.png"} \\
+\end{center}
+\end{frame}
+
+\begin{frame}{The main goals of this session:}
+\phantomsection\label{the-main-goals-of-this-session}
+\begin{itemize}
+\tightlist
+\item
+  Share a few basic principles, techniques, and tools. Inspired by:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \href{https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf}{\textbf{Code
+    and Data for the Social Sciences} (Gentzkow and Shapiro)}
+  \item
+    \href{https://medium.com/data-science/how-to-keep-your-research-projects-organized-part-1-folder-structure-10bd56034d3a}{\textbf{How
+    to keep your research projects organized} (De Kok)}
+  \item
+    My own mistakes and personal experience
+  \end{itemize}
+\item
+  Let's make this interactive: Interupt, ask questions, + tell me about
+  your experience.
+\item
+  Disclaimer: Largely through the lens of a quantitative researcher.
+\item
+  All materials for this talk are available:
+  \href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{Example
+  Files}} and
+  \href{https://tinyurl.com/datamanagementslides}{\textbf{Slides}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What will we cover in this session?}
+\phantomsection\label{what-will-we-cover-in-this-session}
+\begin{enumerate}
+\item
+  Directory structure: How to organize your research project
+\item
+  Version control: Using Git and repositories (example using Github)
+\item
+  Integrating multiple languages: Example using Quarto
+\item
+  AI agents: Using them on your pipeline without losing reproducibility
+\end{enumerate}
+\end{frame}
+
+\section{1. Directory Structure}\label{directory-structure}
+
+\begin{frame}{1. Directory Structure: Fundamental Principles}
+\phantomsection\label{directory-structure-fundamental-principles}
+\centering
+
+Following principles is critical, especially for projects with lots of
+data and code:
+
+\begin{itemize}
+\tightlist
+\item
+  Anyone can run the code anywhere and anytime, regardless of location.
+\item
+  Anyone can understand the code and data without much effort.
+\item
+  Anyone can update the code on the spot without breaking it (dynamic
+  coding).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: How to accomplish this?}
+\phantomsection\label{directory-structure-how-to-accomplish-this}
+\begin{itemize}
+\tightlist
+\item
+  Use a flow-inspired folder structure:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., formatting files -\textgreater{} generating variables
+    -\textgreater{} conducting analyses -\textgreater{} generating
+    output.
+  \end{itemize}
+\item
+  Leave the raw data untouched: You load it and use it to produce
+  output:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., raw data files -\textgreater{} input files -\textgreater{}
+    process files -\textgreater{} output files.
+  \end{itemize}
+\item
+  Use relative paths (e.g., ``\emph{../0\_data/data.csv}'') and not
+  direct paths (e.g.,
+  ``\emph{C:/user{[}name{]}/Documents/research/project\_1/0\_data/data.csv}'').
+\item
+  The code is deterministic. Random and stochastic processes ideally
+  require a seed.
+\item
+  Do not leave blindspots in your coding and analysis
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use plenty of comments to explain what the code is doing.
+  \item
+    Be as descriptive as you can in folder and filenames
+  \end{itemize}
+\item
+  Use environmental variables for credentials and software paths
+\end{itemize}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: An simple starting point}
+\phantomsection\label{directory-structure-an-simple-starting-point}
+\begin{center}
+\includegraphics[width =0.75\textwidth]{"images/figure4.png"}
+\end{center}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: Additional folders}
+\phantomsection\label{directory-structure-additional-folders}
+\begin{center}
+\includegraphics[width =0.75\textwidth]{"images/figure5.png"}
+\end{center}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: A working example}
+\phantomsection\label{directory-structure-a-working-example}
+\centering
+
+Let's take a closer look at how this works in practice (using Stata, R,
+and Quarto):
+
+\includegraphics[width=3.33333in,height=\textheight,keepaspectratio]{images/paste-7.png}
+
+\href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{Clone
+this repository!}}
+
+\href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{github.com/victorvanpelt/research\_pipeline\_example}}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: Stata do-file under ``1\_code/''}
+\phantomsection\label{directory-structure-stata-do-file-under-1_code}
+\centering
+
+\includegraphics[width=\linewidth,height=2.44792in,keepaspectratio]{images/paste-4.png}
+
+The same analysis also ships in R (``\emph{code.r}'') and Quarto
+(``\emph{code.qmd}'')
+\end{frame}
+
+\begin{frame}{1. Directory Structure: Reproducing all results instantly}
+\phantomsection\label{directory-structure-reproducing-all-results-instantly}
+\centering
+
+Who can reproduce all their results using a single command or script?
+\end{frame}
+
+\begin{frame}{1. Directory Structure: makefile.mak in root}
+\phantomsection\label{directory-structure-makefile.mak-in-root}
+\begin{center}
+\includegraphics[width=\linewidth,height=2.60417in,keepaspectratio]{images/paste-19.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: makefile.mak in root}
+\phantomsection\label{directory-structure-makefile.mak-in-root-1}
+\centering
+
+You run ``\emph{make -f makefile.mak}'' in the CLI to rebuild
+everything, or a single step with ``\emph{make r}'', ``\emph{make
+stata}'', ``\emph{make paper}'', or ``\emph{make slides}''
+\begin{center}
+\includegraphics[width=\linewidth,height=1.30208in,keepaspectratio]{images/paste-16.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: Is your code slow?}
+\phantomsection\label{directory-structure-is-your-code-slow}
+\begin{itemize}
+\tightlist
+\item
+  Does your code:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Take a long time to run?
+  \item
+    Require too much memory?
+  \end{itemize}
+\item
+  Ask your supervisor for a new laptop.
+\item
+  Otherwise, consider looking into running your code remotely:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ``super computer,''grid'', or ``server'' allows you to run your code
+    using way more powerful hardware.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{2. Version Control}\label{version-control}
+
+\begin{frame}{2. Version control: Opening question}
+\phantomsection\label{version-control-opening-question}
+\centering
+
+Whose folders look something like this?
+
+\begin{center}
+\includegraphics[width =0.3\textwidth]{"images/pic1.png"} \\
+\end{center}
+\end{frame}
+
+\begin{frame}{2. Version control}
+\phantomsection\label{version-control-1}
+\centering
+
+Version control is a system that records changes to a file or set of
+files over time so that you can recall specific versions later.
+
+\begin{center}
+\includegraphics[width=\linewidth,height=1.82292in,keepaspectratio]{images/section_2.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{2. Version control: How to use version control}
+\phantomsection\label{version-control-how-to-use-version-control}
+\begin{itemize}
+\tightlist
+\item
+  Many cloud services have some forms of version control (e.g., Dropbox
+  and Onedrive), but they can be too simplistic and unreliable.
+\item
+  The most widely used software is called
+  \href{https://git-scm.com/}{\textbf{git}}
+\item
+  You can run \href{https://git-scm.com/}{\textbf{git}} locally using
+  the CL, but it is easier to use an online provider.
+\item
+  Saving your version control online reduces the likelihood you loose
+  stuff.
+\item
+  Three major \href{https://git-scm.com/}{\textbf{git}} providers:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    GitHub --\textgreater{} The best choice!
+  \item
+    BitBucket
+  \item
+    GitLab
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2. Version control: What is Github?}
+\phantomsection\label{version-control-what-is-github}
+\begin{itemize}
+\tightlist
+\item
+  GitHub Inc.~is a web-based hosting service for version control using
+  Git. It is mostly used for computer code. It offers all of the
+  distributed version control and source code management functionality
+  of Git as well as adding its own features.
+\item
+  Why use it?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Clean and easy to use interface
+  \item
+    Native support for all kinds of software
+  \item
+    GitHub Desktop application is very simple and convenient
+  \end{itemize}
+\item
+  Bonus feature: you can use GitHub pages to host your website for free!
+  See mine \href{www.victorvanpelt.com}{\textbf{www.victorvanpelt.com}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2. Version control: GitHub Enterprise}
+\phantomsection\label{version-control-github-enterprise}
+\centering
+
+You can apply for GitHub Enterprise as a researcher or student
+\href{https://education.github.com/discount_requests/application}{\textbf{here}}.
+\begin{center}
+\includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-14.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{2. Version control: GitHub Desktop}
+\phantomsection\label{version-control-github-desktop}
+\centering
+
+Download the GitHub Desktop for Windows or MacOS
+\href{https://github.com/apps/desktop}{\textbf{here}}. \begin{center}
+\includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-15.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{2. Version control: Basic Workflow}
+\phantomsection\label{version-control-basic-workflow}
+\begin{itemize}
+\tightlist
+\item
+  First time:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Create a new repository on GitHub
+  \item
+    Clone it to your computer (Copy URL and enter in GitHub Desktop)
+  \end{itemize}
+\item
+  When you start working:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sync with Github first: ``Pull'' changes
+  \end{itemize}
+\item
+  When making changes:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sync with Github first: ``Pull'' changes
+  \item
+    Create commit (add summary and descriptions)
+  \item
+    Push commit to GitHub.
+  \end{itemize}
+\item
+  Use a README.md file to state the project's title and a brief
+  description of the repository.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2. Version control: .gitignore files}
+\phantomsection\label{version-control-.gitignore-files}
+\begin{itemize}
+\tightlist
+\item
+  There are lots of things you might not want to sync with Github
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Private or non-public data
+  \item
+    Personal credentials
+  \item
+    ``Byproduct'' files
+  \end{enumerate}
+\item
+  You would like to think about what to precisely sync with Github.
+\item
+  A .gitignore file allows you to select files that should automatically
+  be ignored by git.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2. Version control: .gitignore syntax}
+\phantomsection\label{version-control-.gitignore-syntax}
+\begin{itemize}
+\tightlist
+\item
+  The basic syntax can be found
+  \href{https://git-scm.com/docs/gitignore}{\textbf{here}}\textbf{.}
+\item
+  Some common expressions:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \# → comment
+  \item
+    * → any file name
+  \item
+    ** → any folder depth
+  \item
+    / at the end → folder
+  \item
+    ! → keep (don't ignore)
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2. Version control: .gitignore example}
+\phantomsection\label{version-control-.gitignore-example}
+\centering
+
+\begin{center}
+\includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-5.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{2. Version control: Why should you care?}
+\phantomsection\label{version-control-why-should-you-care}
+\begin{itemize}
+\tightlist
+\item
+  Go back to any version at any time!
+\item
+  Journals and institutions are increasingly requesting access to your
+  research materials (i.e., code, instrument, and data).
+\item
+  At the very least, they want to ensure it exists.
+\item
+  At the very most, they will put a researcher on checking every part of
+  your code (e.g., MS)
+\item
+  This trend is growing\ldots{} For example, two journals in my area:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Journal of Accounting Research
+  \item
+    Management Science
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{3. Integrating Multiple
+Languages}\label{integrating-multiple-languages}
+
+\begin{frame}{3. Integrating multiple languages: What's the remaining
+challenge?}
+\phantomsection\label{integrating-multiple-languages-whats-the-remaining-challenge}
+\begin{columns}[T]
+\begin{column}{0.4\linewidth}
+\includegraphics[width=2.08333in,height=\textheight,keepaspectratio]{images/confused.png}
+\end{column}
+
+\begin{column}{0.6\linewidth}
+\begin{itemize}
+\tightlist
+\item
+  So, now you will have:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    A good directory structure
+  \item
+    Version control.
+  \end{enumerate}
+\item
+  A remaining challenge is that we use different software, coding
+  languages, and files.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Python, R, Markdown, HTML, Office, Stata, LaTeX, etc.
+  \item
+    Tables, datasets, code, and docs.
+  \end{itemize}
+\item
+  There have been efforts over the past decade to put all processes
+  under one umbrella.
+\item
+  One system can integrate everything into one process: Quarto.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{3. Integrating multiple languages: What is Quarto?}
+\phantomsection\label{integrating-multiple-languages-what-is-quarto}
+\begin{itemize}
+\tightlist
+\item
+  Quarto is an open-source scientific and technical publishing system
+\item
+  Quarto is not only used for data. It can use data to produce a wide
+  variety of outputs:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Articles and papers
+  \item
+    Presentations (this presentation is made using Quarto)
+  \item
+    Dashboards
+  \item
+    Websites
+  \end{itemize}
+\item
+  Best integration support for Markdown, R, Python, Jupyter, and LaTeX.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{3. Integrating multiple languages: How to get started?}
+\phantomsection\label{integrating-multiple-languages-how-to-get-started}
+Setup:
+
+\begin{enumerate}
+\tightlist
+\item
+  Install Quarto from the website:
+  \href{https://quarto.org/docs/get-started/}{\textbf{https://quarto.org/docs/get-started/}}.
+\item
+  Choose a coding environment (I recommend
+  \href{https://quarto.org/docs/get-started/hello/vscode.html}{\textbf{VS
+  Code}}).
+\item
+  Install the
+  \href{https://marketplace.visualstudio.com/items?itemName=quarto.quarto}{\textbf{Quarto
+  VS Code Extension}} in VS Code.
+\end{enumerate}
+
+Usage:
+
+\begin{itemize}
+\tightlist
+\item
+  Quarto uses .qmd files. Check the
+  \href{https://quarto.org/docs/guide/}{\textbf{guide}}.
+\item
+  You can produce output in formats, such as .pptx, .docx, .pdf and
+  integrate R and Stata code.
+\item
+  The example repository uses Quarto to render a paper and a
+  presentation (``\emph{4\_drafts/}'') that pull their numbers and
+  tables straight from the pipeline.
+\item
+  It also contains a self-contained literate report
+  (``\emph{1\_code/code.qmd}'').
+\end{itemize}
+\end{frame}
+
+\begin{frame}{3. Integrating multiple languages: Quarto Presentation
+Example}
+\phantomsection\label{integrating-multiple-languages-quarto-presentation-example}
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/pic4.png}
+        \caption*{Specify in the "YAML" the type of qmd file}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/pic3.png}
+        \caption*{Use R as you would in code.r}
+    \end{subfigure}
+    \caption*{}
+\end{figure}
+\end{frame}
+
+\begin{frame}{3. Integrating multiple languages: Quarto Presentation
+Example}
+\phantomsection\label{integrating-multiple-languages-quarto-presentation-example-1}
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/paste-17.png}
+    \end{subfigure}
+    \hspace{0.05\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/paste-18.png}
+    \end{subfigure}
+    \caption*{}
+\end{figure}
+\end{frame}
+
+\begin{frame}{3. Integrating multiple languages: makefile.mak extension}
+\phantomsection\label{integrating-multiple-languages-makefile.mak-extension}
+\centering
+
+``\emph{make paper}'' and ``\emph{make slides}'' render the Quarto
+drafts from the pipeline's output
+
+\begin{center}
+\includegraphics[width=\linewidth,height=2.23958in,keepaspectratio]{images/paste-13.png}
+\end{center}
+\end{frame}
+
+\section{4. AI Agents and Your
+Pipeline}\label{ai-agents-and-your-pipeline}
+
+\begin{frame}{4. AI agents: Opening question}
+\phantomsection\label{ai-agents-opening-question}
+An AI hands you a beautiful regression table. Can you defend every
+number in it?
+
+\begin{enumerate}
+\item
+  Yes, I built and reran every step
+\item
+  Probably, I would need to retrace some steps
+\item
+  No, I could not say where it came from
+\end{enumerate}
+
+\note{Picture an agent that just ran a robustness check and handed back
+a polished regression table, formatted, significant stars included. It
+looks publication ready. The real question is whether we could stand in
+front of a committee and defend every number in it: where the data came
+from, what transformation produced each column, why the standard errors
+are clustered that way. Most of us have used a chatbot to draft or check
+code at some point. Far fewer of us could immediately defend a result a
+chat window produced on its own. This chapter asks how we get real help
+from AI agents without losing ownership of our own results.}
+\end{frame}
+
+\begin{frame}{4. AI agents: From chatbots to agents that work inside
+your project}
+\phantomsection\label{ai-agents-from-chatbots-to-agents-that-work-inside-your-project}
+\begin{itemize}
+\tightlist
+\item
+  Chat window: you paste, it answers, you paste back
+\item
+  Agent: reads your files, edits code directly
+\item
+  Runs commands, reads the errors itself
+\item
+  Iterates until the pipeline works
+\item
+  Examples: Claude Code, OpenAI Codex, Copilot, Cursor
+\end{itemize}
+
+\process{Read files,Edit code,Run make,Read errors,Fix}
+
+\note{A chat window is just a text box: we paste in code or a question,
+the model answers, and we paste the answer back into our files by hand.
+Nothing the model does touches the project directly. An agentic workflow
+works differently. Think of cooking: instead of texting a friend for a
+recipe fix, we hand them the kitchen. They open the fridge, see what's
+actually there, adjust the dish, taste it, adjust again. An agent like
+Claude Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual
+files, edits code in place, runs a command such as make, reads the error
+that comes back, and revises until it works. That loop, read, edit, run,
+read errors, fix, is what turns a chatbot into a collaborator inside the
+pipeline.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Working in the dark makes results
+irreproducible}
+\phantomsection\label{ai-agents-working-in-the-dark-makes-results-irreproducible}
+\begin{itemize}
+\tightlist
+\item
+  Numbers copy-pasted from a chat window
+\item
+  Edits made outside git, never tracked
+\item
+  Prompts nobody saved or can rerun
+\item
+  Provenance nobody can explain later
+\item
+  Roughly one in three articles not reproducible, even with disclosure
+  (Fišar et al. 2023)
+\item
+  Your committee and journals will ask you, not the AI
+\end{itemize}
+
+\note{Dark use means AI is helping, but none of that help lives in the
+project. A result gets copied from a chat window straight into a draft.
+An agent edits a file and nobody looks at what changed. The prompt that
+produced a number sits in a chat history nobody saved. Months later,
+nobody, including us, can explain where that number came from. Fišar et
+al.~2023 found that roughly a third of Management Science articles could
+not be reproduced, even under a strict data and code disclosure policy,
+before agents were part of the picture. Add an unrecorded chat on top of
+that, and reproducibility gets worse, not better. When a committee or a
+journal asks us to defend a number, ``the AI produced it'' is not an
+answer they will accept, and it should not be one we accept either.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Your pipeline is the guardrail that keeps AI
+transparent}
+\phantomsection\label{ai-agents-your-pipeline-is-the-guardrail-that-keeps-ai-transparent}
+\begin{itemize}
+\tightlist
+\item
+  Numbered folders scope what the agent may touch
+\item
+  ``\emph{0\_data}'' stays read-only, always
+\item
+  git turns every agent edit into a diff
+\item
+  make is the contract that verifies results
+\item
+  README gives the agent project context
+\end{itemize}
+
+\takeaway{Your pipeline does not need to trust the agent, only to verify what it changed.}
+
+\note{The same structure from chapters one through three is what makes
+agents safe to use. Numbered folders already scope what belongs where,
+so an agent editing 1\_code has no business touching 3\_output by hand.
+0\_data stays read-only for the agent exactly as it does for us, real
+data is never regenerated or overwritten. Because everything lives in
+git, any change the agent makes shows up as a diff we can read before
+committing it. make is the contract: if the pipeline runs clean from raw
+data to draft, the result is verified, not just plausible. A README
+gives the agent the same onboarding a new collaborator would need. None
+of this requires trusting the agent's judgment, it requires trusting the
+guardrails we already built.}
+\end{frame}
+
+\begin{frame}{4. AI agents: The agent edits, you review the diff}
+\phantomsection\label{ai-agents-the-agent-edits-you-review-the-diff}
+\begin{columns}[T]
+\begin{column}{0.42\linewidth}
+\begin{itemize}
+\tightlist
+\item
+  Prompt: winsorize scaled earnings at 1st/99th percentile
+\item
+  Agent edits ``\emph{1\_code/code.r}'' directly
+\item
+  You run git diff before committing
+\item
+  Check: only ``\emph{1\_code}'' touched
+\item
+  Check: winsorize sits before the regression
+\item
+  Check: ``\emph{0\_data}'' and ``\emph{3\_output}'' untouched by hand
+\end{itemize}
+\end{column}
+
+\begin{column}{0.58\linewidth}
+\pandocbounded{\includegraphics[keepaspectratio]{images/paste-20.png}}
+\end{column}
+\end{columns}
+
+\note{Say we ask an agent to add a robustness check: winsorize scaled
+earnings at the first and ninety-ninth percentile before the main
+regression. The agent opens 1\_code/code.r, adds the step, and reports
+back that it's done. Before committing anything, we run git diff and
+actually read it. Three things matter. First, scope: does the diff touch
+only 1\_code, or did the agent also poke at 0\_data or 3\_output? It
+should be 1\_code only, everything else gets derived by rerunning the
+pipeline, never hand-edited. Second, placement: is the winsorizing step
+inserted before the regression that uses it, not bolted onto the end of
+the file? Third, is anything changed by hand outside the code, a number
+pasted into a table, a figure edited directly? If the diff is clean on
+all three, we commit it with a clear message. If not, we send the agent
+back with exactly what's wrong, the same way we'd redirect a coauthor.}
+\end{frame}
+
+\begin{frame}{4. AI agents: The agent runs make, you rerun it yourself}
+\phantomsection\label{ai-agents-the-agent-runs-make-you-rerun-it-yourself}
+\begin{itemize}
+\tightlist
+\item
+  Agent runs ``\emph{make -f makefile.mak}''
+\item
+  Reads the error, proposes a fix
+\item
+  Your rule: ``\emph{make clean}'', then ``\emph{make}''
+\item
+  Rerun it yourself, on your machine
+\item
+  Numbers flow from the pipeline, not a chat
+\end{itemize}
+
+\note{Suppose make -f makefile.mak fails after the agent's edit, maybe a
+data type mismatch in the new winsorizing step. A good agent reads that
+error itself and proposes a fix, the same way it read the file in the
+first place. Letting it iterate is fine. What matters is what we do
+next. Before trusting any number in the draft, we run make clean, wiping
+every intermediate and output file, then make -f makefile.mak from
+scratch, on our own machine, not the agent's sandbox. If the pipeline
+reproduces cleanly from 0\_data through 4\_drafts, the numbers are real.
+This is the payoff from chapter three: because the paper and slides are
+dynamic documents pulling numbers straight from 3\_output, rerunning the
+pipeline re-verifies every number in the draft. None of it comes from a
+chat window, all of it comes from code we can rerun.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Where could an agent silently break your
+project?}
+\phantomsection\label{ai-agents-where-could-an-agent-silently-break-your-project}
+\discussionprompt{Where could an AI agent silently break your research project? Think alone (2 min), compare with your neighbor (2 min), share one risk with the room (1 min).}
+
+\begin{itemize}
+\tightlist
+\item
+  Think (2 min): where could an agent break things unnoticed?
+\item
+  Pair (2 min): compare notes, agree on top risk
+\item
+  Share (1 min): one risk per pair, aloud
+\item
+  Debrief: name the pattern, not just the example
+\end{itemize}
+
+\note{For the next five minutes, work through this in three stages.
+First, two minutes alone: where in our own workflow could an agent make
+a change we would not notice? Think about our own projects, not just
+this repo. Second, two minutes with a partner: compare what we each came
+up with, and agree on the one risk most likely to bite us. Third, one
+minute where a few pairs share their top risk with the room. I'm
+listening for a specific set of answers. Strong answers name specific
+failure modes. An agent edits a file outside git, so the change never
+shows up in a diff. An agent touches 0\_data directly instead of
+treating it as read-only. A number lands in the draft without anyone
+rerunning make. Confidential data gets pasted into a chat window and
+leaves the machine entirely. If the room goes quiet during the pair
+stage, here's a prompt to restart the conversation: what would the agent
+have to touch for us not to notice? That question tends to surface blind
+spots fast, because it forces us to think about what we are not
+currently checking. We'll spend the last minute naming these out loud,
+because the goal is not a perfect list, it's noticing that these failure
+modes are all about visibility, not about the AI itself.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Rules of engagement for reproducible AI use}
+\phantomsection\label{ai-agents-rules-of-engagement-for-reproducible-ai-use}
+\begin{itemize}
+\tightlist
+\item
+  Opaque AI use breaks reproducibility
+\item
+  Your pipeline is the agent's guardrail
+\item
+  Review the diff, rerun make, every time
+\end{itemize}
+
+\small
+
+\begin{columns}[T]
+\begin{column}{0.55\linewidth}
+\textbf{Do}
+
+\begin{itemize}
+\tightlist
+\item
+  Agent works inside the repo
+\item
+  Raw data in ``\emph{0\_data}'' stays read-only
+\item
+  Review every diff before committing
+\item
+  Rerun the pipeline before trusting a number
+\item
+  Credentials live in environment variables
+\end{itemize}
+\end{column}
+
+\begin{column}{0.45\linewidth}
+\textbf{Never}
+
+\begin{itemize}
+\tightlist
+\item
+  Chat-window analyses copied into the draft
+\item
+  Confidential data pasted into a chat
+\end{itemize}
+\end{column}
+\end{columns}
+
+\normalsize
+
+\takeaway{AI amplifies your data management. The pipeline turns it from a black box into a reviewable collaborator.}
+
+\note{Three things to take home. First, AI used in the dark, chat
+windows and untracked edits, produces numbers nobody can defend. Second,
+the pipeline we built today is exactly what keeps an agent transparent:
+it works in files, under git, against make. Third, the routine is short.
+We read the diff before we commit, and we rerun the pipeline before we
+trust a number. Two honest caveats. Output is often wrong, confidently
+wrong, so verification is not optional. And skipping AI entirely remains
+a valid way to do a PhD. When the agent added our winsorizing step, the
+diff showed one changed file in 1\_code, and a clean make rebuilt the
+same table in the draft. That is what owning an AI-assisted result looks
+like.}
+\end{frame}
+
+\begin{frame}{Summary and Wrap-up}
+\phantomsection\label{summary-and-wrap-up}
+\begin{itemize}
+\tightlist
+\item
+  Across all fields of science, reproducibility has been under threat
+  (Open Science Collaboration 2015; Baker 2016; Camerer et al. 2016;
+  Hail, Lang, and Leuz 2020; Fišar et al. 2023)
+\item
+  Good data management is vital to ensure results are reproducible.
+\item
+  You, as a WHU doctoral student, are vital:
+
+  \begin{enumerate}
+  \tightlist
+  \item
+    Maintain a good directory structure
+  \item
+    Use version control
+  \item
+    Integrate multiple languages (try Quarto)
+  \item
+    Let AI agents work inside your pipeline, never in the dark
+  \end{enumerate}
+\item
+  If you don't want to do it for science, then do it to save yourself
+  lots of time and headache.
+\end{itemize}
+
+\centering
+
+\href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{Download
+Example Files (github.com/victorvanpelt/research\_pipeline\_example)}}
+
+\href{https://tinyurl.com/datamanagementslides}{\textbf{Download Slides
+(tinyurl.com/datamanagementslides)}}
+\end{frame}
+
+\begin{frame}{Good data management is just the start\ldots{}}
+\phantomsection\label{good-data-management-is-just-the-start}
+\begin{itemize}
+\tightlist
+\item
+  Good data management is not enough.
+\item
+  Ideally, we also need:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Research material sharing (data, instruments, and code)
+  \item
+    Pre-registration
+  \end{itemize}
+\item
+  Many journals and institutions offer ways to pre-register and collect
+  research all materials (not just data and code) in one place.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    You can sync your repositories as well!
+  \end{itemize}
+\item
+  My recommendation is to use the \href{https://osf.io/}{\textbf{Open
+  Science Foundation}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you!}
+\phantomsection\label{thank-you}
+\begin{wrapfigure}{r}{0.37\textwidth}
+  \vspace{-0.5cm}
+  \includegraphics[width=0.41\textwidth]{"images/profile.png"}
+\end{wrapfigure}
+
+Dr.~Victor van Pelt\\
+Professor of Accounting\\
+Finance and Accounting Group\\
+WHU -- Otto Beisheim School of Management
+
+Campus Vallendar, Burgplatz 2, 56179 Vallendar, Germany\\
+Tel.: +49 (0)261 6509 483\\
+\href{mailto:Victor.vanPelt@whu.edu}{\textbf{Victor.vanPelt@whu.edu}}\\
+\href{https://www.victorvanpelt.com}{\textbf{https://www.victorvanpelt.com}}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+\phantomsection\label{references}
+\footnotesize
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-B_2016}
+Baker, Monya. 2016. {``Reproducibility Crisis.''} \emph{Nature} 533
+(26): 353--66. \url{https://doi.org/10.1038/533452a}.
+
+\bibitem[\citeproctext]{ref-CDF_2016}
+Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
+Magnus Johannesson, Michael Kirchler, et al. 2016. {``Evaluating
+Replicability of Laboratory Experiments in Economics.''} \emph{Science}
+351 (6280): 1433--36.
+\url{https://doi.org/doi.org/10.1126/science.aaf0918}.
+
+\bibitem[\citeproctext]{ref-FGHKO_2023}
+Fišar, Miloš, Ben Greiner, Christoph Huber, Elena Katok, and Ali I. and
+Ozkes. 2023. {``Reproducibility in Management Science.''}
+\emph{Management Science}.
+\url{https://doi.org/10.1287/mnsc.2023.03556}.
+
+\bibitem[\citeproctext]{ref-HLL_2000}
+Hail, Luzi, Mark Lang, and Christian Leuz. 2020. {``Reproducibility in
+Accounting Research: Views of the Research Community.''} \emph{Journal
+of Accounting Research} 58 (2): 519--43.
+\url{https://doi.org/10.1111/1475-679X.12305}.
+
+\bibitem[\citeproctext]{ref-OSC_2015}
+Open Science Collaboration. 2015. {``Estimating the Reproducibility of
+Psychological Science.''} \emph{Science} 349 (6251): aac4716.
+\url{https://doi.org/10.1126/science.aac4716}.
+
+\end{CSLReferences}
+\end{frame}
+
+
+
+
+\end{document}

@@ -1,0 +1,339 @@
+% WHU beamer theme (16:9) - v3
+% Usage: \input{materials/beamer_theme_16x9.sty}
+\ProvidesFile{00_theme.sty}[2026/03/13 WHU beamer theme v3]
+
+\mode<presentation>
+
+% ── Package dependencies ────────────────────────────────────────
+\RequirePackage{tikz}
+\usetikzlibrary{calc,positioning,arrows.meta,shapes.geometric,fit,backgrounds}
+\RequirePackage{etoolbox}
+\RequirePackage{ifxetex}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{ragged2e}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{appendixnumberbeamer}
+
+% ── Fonts ───────────────────────────────────────────────────────
+\RequirePackage{lmodern}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+
+% ── Colors ──────────────────────────────────────────────────────
+\definecolor{whu_blue}{RGB}{5,70,150}
+\definecolor{whu_lightblue}{RGB}{0,165,220}
+\definecolor{whu_silvergray}{RGB}{230,235,240}
+\definecolor{whu_anthracite}{RGB}{80,84,89}
+\definecolor{whu_darkgray}{RGB}{60,60,60}
+\definecolor{whu_accent_green}{RGB}{0,128,85}
+\definecolor{whu_accent_red}{RGB}{180,40,40}
+\definecolor{whu_accent_orange}{RGB}{210,120,20}
+\definecolor{whu_lightgreen}{RGB}{230,245,235}
+\definecolor{whu_lightred}{RGB}{250,235,235}
+
+% ── Global beamer color setup ───────────────────────────────────
+\setbeamercolor*{title}{fg=whu_blue}
+\setbeamercolor*{subtitle}{fg=whu_blue}
+\setbeamercolor*{title page header}{fg=whu_blue}
+\setbeamercolor*{author}{fg=whu_blue}
+\setbeamercolor*{institute}{fg=white}
+\setbeamercolor*{date}{fg=white}
+\setbeamercolor*{normal text}{fg=black}
+
+% Items
+\setbeamercolor*{item}{fg=whu_blue}
+\setbeamercolor*{itemize item}{fg=whu_blue}
+\setbeamercolor*{itemize subitem}{parent=itemize item}
+\setbeamercolor*{itemize subsubitem}{parent=itemize item}
+\setbeamercolor*{enumerate item}{fg=whu_blue}
+\setbeamercolor*{enumerate subitem}{parent=enumerate item}
+\setbeamercolor*{description item}{fg=whu_blue}
+\setbeamerfont{description item}{series=\bfseries}
+
+\setbeamercolor*{frametitle}{fg=whu_blue}
+\setbeamercolor*{page number in head/foot}{fg=whu_blue}
+
+% Blocks
+\setbeamercolor*{block title}{fg=whu_blue,bg=whu_silvergray}
+\setbeamercolor*{block body}{fg=black,bg=whu_silvergray!30}
+\setbeamercolor*{block title alerted}{fg=white,bg=whu_accent_red}
+\setbeamercolor*{block body alerted}{fg=black,bg=whu_lightred}
+\setbeamercolor*{block title example}{fg=white,bg=whu_accent_green}
+\setbeamercolor*{block body example}{fg=black,bg=whu_lightgreen}
+
+% ── Font sizes ──────────────────────────────────────────────────
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{subtitle}{size=\large}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\small}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
+\setbeamerfont{footnote}{size=\tiny}
+
+% ── Hyperlinks ──────────────────────────────────────────────────
+\hypersetup{colorlinks=true,urlcolor=whu_lightblue,linkcolor=whu_lightblue}
+
+% ── Navigation / footline ──────────────────────────────────────
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{footline}[frame number]
+
+% ── Background ──────────────────────────────────────────────────
+\setbeamertemplate{background}{%
+  \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \ifnum\thepage=1\relax
+      \fill[white] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+      \fill[whu_blue!60] (0,0) rectangle(1.5,1.9);
+      \fill[whu_blue] (1.6,0) rectangle(\the\paperwidth,1.9);
+      \node[anchor=west,text=white,font=\small] at (1.7,1.18) {\insertinstitute};
+      \node[anchor=west,text=white,font=\small] at (1.7,0.6) {\insertdate};
+    \else
+      \fill[white] (0,0) rectangle(\the\paperwidth,\the\paperheight);
+    \fi
+  \end{tikzpicture}%
+}
+
+% ── Title page ──────────────────────────────────────────────────
+\defbeamertemplate*{title page}{whu266}[1][]
+{%
+  \vskip.5cm
+  \includegraphics[keepaspectratio,height=1.5cm]{materials/00_whu_logo.png}
+  \vskip1.5cm
+  \begin{beamercolorbox}[wd=12cm,leftskip=0.6cm,#1]{title page header}
+    \usebeamerfont{title}\inserttitle\par
+    \usebeamerfont{subtitle}\insertsubtitle\par
+  \end{beamercolorbox}
+  \vskip1.5cm
+  \begin{beamercolorbox}[wd=12cm,leftskip=0.6cm,sep=1pt,#1]{author}
+    \usebeamerfont{author}\insertauthor
+  \end{beamercolorbox}
+  % institute + date are drawn onto the bottom bar by the page-1 background
+  % template (so the date is never clipped). Reserve their original vertical
+  % footprint here so the title and author keep their previous position.
+  \vskip2.05cm
+  \vfil
+}
+\setbeamertemplate{title page}[whu266]
+
+% ── Items / ToC ─────────────────────────────────────────────────
+\setbeamertemplate{items}[square]
+\setbeamertemplate{sections/subsections in toc}[square]
+
+% ── Frame title ─────────────────────────────────────────────────
+\makeatletter
+\defbeamertemplate*{frametitle}{whu266}[1][]
+{%
+  \vskip0.6cm%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.5cm]{frametitle}
+    \begin{tikzpicture}
+      \useasboundingbox[fill=white] (0,0) rectangle(\the\paperwidth,0.5);
+      \fill[whu_blue!60] (0,0) rectangle(1.5,1.2);
+      \fill[whu_blue] (1.6,0) rectangle(\the\paperwidth,1.2);
+      \ifx\insertframesubtitle\@empty%
+        \node[anchor=west,white,font=\large] at (1.7,0.6) {\insertframetitle};
+      \else%
+        \node[anchor=west,white,font=\large] at (1.7,0.75) {\insertframetitle};
+        \node[anchor=west,white,font=\small] at (1.7,0.35) {\insertframesubtitle};
+      \fi
+    \end{tikzpicture}
+  \end{beamercolorbox}
+}
+\makeatother
+\setbeamertemplate{frametitle}[whu266]
+
+% ═════════════════════════════════════════════════════════════════
+% UTILITY MACROS - Full toolkit for varied slide layouts
+% ═════════════════════════════════════════════════════════════════
+
+% ── Section divider slide ───────────────────────────────────────
+% Usage: \sectionslide{Section Title}
+\newcommand{\sectionslide}[1]{%
+  \begin{frame}[plain]
+    \vfill
+    \hspace*{-\dimexpr(\paperwidth-\textwidth)/2\relax}%
+    \makebox[0pt][l]{%
+    \begin{tikzpicture}
+      \useasboundingbox (0,0) rectangle(\the\paperwidth,3);
+      \fill[whu_blue!60] (0,1.0) rectangle(1.5,2.2);
+      \fill[whu_blue] (1.6,1.0) rectangle(\the\paperwidth,2.2);
+      \node[anchor=west,white,font=\LARGE\bfseries] at (1.7,1.6) {#1};
+    \end{tikzpicture}%
+    }
+    \vfill
+  \end{frame}%
+}
+
+% ── Highlight box (gray background) ────────────────────────────
+% Usage: \highlightbox{Key definition or important text.}
+\newcommand{\highlightbox}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_silvergray,rounded corners=3pt,inner sep=8pt,
+          text width=\linewidth-20pt] {#1};
+  \end{tikzpicture}%
+}
+
+% ── Source citation at bottom of slide ─────────────────────────
+% Usage: \source{Author (Year)}
+\newcommand{\source}[1]{%
+  \vfill
+  {\usebeamerfont{footnote}\textcolor{whu_anthracite}{Source: #1}}%
+}
+
+% ── Single stat callout ────────────────────────────────────────
+% Usage: \statcallout{42\%}{of firms use AI in forecasting}
+\newcommand{\statcallout}[2]{%
+  \begin{center}
+    {\fontsize{42}{48}\selectfont\textcolor{whu_blue}{\textbf{#1}}}\\[4pt]
+    {\large\textcolor{whu_anthracite}{#2}}
+  \end{center}%
+}
+
+% ── Double stat callout (side-by-side numbers) ─────────────────
+% Usage: \doublestat{73\%}{use quantitative}{12\%}{use mixed methods}
+\newcommand{\doublestat}[4]{%
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{center}
+        {\fontsize{38}{44}\selectfont\textcolor{whu_blue}{\textbf{#1}}}\\[4pt]
+        {\normalsize\textcolor{whu_anthracite}{#2}}
+      \end{center}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{center}
+        {\fontsize{38}{44}\selectfont\textcolor{whu_accent_green}{\textbf{#3}}}\\[4pt]
+        {\normalsize\textcolor{whu_anthracite}{#4}}
+      \end{center}
+    \end{column}
+  \end{columns}%
+}
+
+% ── Discussion prompt box ──────────────────────────────────────
+%Usage: \discussionprompt{What would you do if...?}
+% \newcommand{\discussionprompt}[1]{%
+%   \begin{tikzpicture}
+%     \node[fill=whu_blue!10,draw=whu_blue,rounded corners=4pt,
+%           inner sep=10pt,text width=\linewidth-24pt,
+%           font=\large\itshape] {#1};
+%   \end{tikzpicture}%
+% }
+
+\newcommand{\discussionprompt}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,rounded corners=4pt,
+          inner sep=10pt,text width=\linewidth-24pt] {#1};
+  \end{tikzpicture}%
+}
+
+% ── How box ───────────────────────────────────────────
+% Usage: \how{The main point the student should remember.}
+\newcommand{\how}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,line width=0.8pt,
+          rounded corners=4pt,inner sep=10pt,
+          text width=\linewidth-24pt] {%
+      {\textbf{\textcolor{whu_blue}{How?}} #1}%
+    };
+  \end{tikzpicture}%
+}
+
+% ── Key takeaway box ───────────────────────────────────────────
+% Usage: \takeaway{The main point the student should remember.}
+\newcommand{\takeaway}[1]{%
+  \begin{tikzpicture}
+    \node[fill=whu_blue!8,draw=whu_blue,line width=0.8pt,
+          rounded corners=4pt,inner sep=10pt,
+          text width=\linewidth-24pt] {%
+      {\textbf{\textcolor{whu_blue}{Key takeaway:}} #1}%
+    };
+  \end{tikzpicture}%
+}
+
+% ── Quote / Epigraph ──────────────────────────────────────────
+% Usage: \epigraphslide{The quote text here.}{Author Name}
+\newcommand{\epigraphslide}[2]{%
+  \vfill
+  \begin{center}
+    \begin{minipage}{0.8\linewidth}
+      {\Large\itshape\textcolor{whu_anthracite}{``#1''}}\\[10pt]
+      \hfill{\normalsize\textcolor{whu_blue}{\textbf{--- #2}}}
+    \end{minipage}
+  \end{center}
+  \vfill
+}
+
+% ── Horizontal process flow ────────────────────────────────────
+% Usage: \process{Step 1,Step 2,Step 3,Step 4}
+% Usage: \process{Step 1/whu_lightblue,Step 2,Step 3}
+\newcommand{\process}[1]{%
+  \begin{center}
+  \begin{tikzpicture}[
+    node distance=0.3cm,
+    flowstep/.style={rectangle,rounded corners=3pt,fill=whu_blue,
+                 text=white,font=\small\bfseries,
+                 minimum height=0.9cm,minimum width=2.4cm,
+                 text width=2.2cm,align=center},
+    arr/.style={-{Stealth[length=5pt]},line width=1.2pt,whu_lightblue}
+  ]
+    \foreach \s/\c [count=\i] in {#1} {
+      \edef\nodecolor{\c}%
+      \edef\nodelabel{\s}%
+      \ifx\nodecolor\nodelabel\def\nodecolor{whu_blue}\fi%
+      \ifnum\i=1
+        \node[flowstep,fill=\nodecolor] (s\i) {\s};
+      \else
+        \pgfmathtruncatemacro{\prev}{\i - 1}
+        \node[flowstep,fill=\nodecolor,right=of s\prev] (s\i) {\s};
+        \draw[arr] (s\prev) -- (s\i);
+      \fi
+    }
+  \end{tikzpicture}
+  \end{center}%
+}
+
+% ── Circular process cycle ─────────────────────────────────────
+% Usage: \processcycle{Step 1,Step 2,Step 3,Step 4}
+\newcommand{\processcycle}[1]{%
+  \xdef\totalsteps{0}%
+  \foreach \s/\c in {#1} {%
+    \pgfmathtruncatemacro{\tmp}{\totalsteps+1}%
+    \xdef\totalsteps{\tmp}%
+  }%
+  \begin{center}
+  \begin{tikzpicture}[
+    flowstep/.style={rectangle,rounded corners=3pt,fill=whu_blue,
+                 text=white,font=\small\bfseries,
+                 minimum height=0.9cm,minimum width=2.4cm,
+                 text width=2.2cm,align=center},
+    arr/.style={-{Stealth[length=5pt]},line width=1.2pt,whu_lightblue}
+  ]
+    \foreach \s/\c [count=\i] in {#1} {%
+      \edef\nodecolor{\c}%
+      \edef\nodelabel{\s}%
+      \ifx\nodecolor\nodelabel\def\nodecolor{whu_blue}\fi%
+      \pgfmathsetmacro{\angle}{90 - (\i-1)*360/\totalsteps}%
+      \node[flowstep,fill=\nodecolor] (s\i) at (\angle:3cm) {\s};%
+    }
+    \foreach \s/\c [count=\i] in {#1} {%
+      \pgfmathtruncatemacro{\next}{int(mod(\i,\totalsteps)+1)}%
+      \draw[arr] (s\i) -- (s\next);%
+    }
+  \end{tikzpicture}
+  \end{center}%
+}
+
+% ── Numbered step label (inline) ──────────────────────────────
+% Usage: \stepnum{1} First step description.
+\newcommand{\stepnum}[1]{%
+  \tikz[baseline=(num.base)]{
+    \node[fill=whu_blue,text=white,circle,inner sep=2pt,
+          font=\small\bfseries,minimum size=0.55cm] (num) {#1};
+  }%
+}
+
+% ── Comparison marks ──────────────────────────────────────────
+% Usage: \cmark and \xmark in tables and lists
+\newcommand{\cmark}{\textcolor{whu_accent_green}{\textbf{\checkmark}}}
+\providecommand{\xmark}{\textcolor{whu_accent_red}{\textbf{\texttimes}}}
+
+\mode<all>
