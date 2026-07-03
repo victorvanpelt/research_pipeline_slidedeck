@@ -24,7 +24,7 @@ header-includes:
 
 ## Opening Question
 
-Let's say you wrote your a research paper and your laptop died. How long would it take you to reproduce your analyses with a new laptop?
+Let's say you wrote a research paper and your laptop died. How long would it take you to reproduce your analyses with a new laptop?
 
 1.  Less than one hour (easy!)
 
@@ -58,7 +58,7 @@ In 2019, *Management Science* introduced a Data and Code Disclosure Policy:
 
 *"Authors of accepted papers… must provide… the data, programs, and other details of the experiment and computations sufficient to permit replication."*
 
-A 2023 study examined nearly 500 articles published under this policy to see if the results could, in fact, be reproduced [@FGHKO_2023].
+A 2024 study examined nearly 500 articles published before and after this policy was introduced to see if the results could, in fact, be reproduced [@FGHKO_2023].
 
 **What share of these articles do you think were largely reproducible?**
 
@@ -70,29 +70,41 @@ A 2023 study examined nearly 500 articles published under this policy to see if 
 
 \centering
 
-About 30% of the articles could not be reproduced, even under the new policy [@FGHKO_2023]
+Across all articles under the new policy, 68% could be reproduced. When data and software were accessible, over 95% could [@FGHKO_2023]
 
 ## But there is more at stake!
 
 \centering
 
--   Nearly one in three papers fails the reproducibility test.
+-   Even under the policy, nearly one in three papers fails the reproducibility test.
+-   Before the policy, it was worse: only 12% of articles shared any materials at all.
 -   This is why good data and code management is not only a “nice to have.”
 -   It’s also essential for credible research and for us to trust the insights it produces.
--   But this does not just depends on how professors manage their data and code.
+-   But this does not just depend on how professors manage their data and code.
 -   It all starts with:
 
 \begin{center}
 \includegraphics[width =0.20\textwidth]{"images/you.png"} \\
 \end{center}
 
+## What one PhD student found
+
+\doublestat{-0.1\%}{average growth of high-debt countries, as published}{+2.2\%}{after one graduate student fixed the spreadsheet}
+
+\centering
+
+A famous 2010 austerity result rested on an Excel formula that skipped five countries. Thomas Herndon caught it in a class replication assignment.
+
+\source{Herndon, Ash, and Pollin (2014), Cambridge Journal of Economics}
+
 ## The main goals of this session:
 
 -   Share a few basic principles, techniques, and tools. Inspired by:
     -   [**Code and Data for the Social Sciences** (Gentzkow and Shapiro)](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
-    -   [**How to keep your research projects organized** (De Kok)](https://medium.com/data-science/how-to-keep-your-research-projects-organized-part-1-folder-structure-10bd56034d3a)
+    -   [**How to keep your research projects organized** (de Kok)](https://medium.com/data-science/how-to-keep-your-research-projects-organized-part-1-folder-structure-10bd56034d3a)
+    -   [**Good Enough Practices in Scientific Computing** (Wilson et al.)](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
     -   My own mistakes and personal experience
--   Let's make this interactive: Interupt, ask questions, + tell me about your experience.
+-   Let's make this interactive: Interrupt, ask questions, and tell me about your experience.
 -   Disclaimer: Largely through the lens of a quantitative researcher.
 -   All materials for this talk are available: [**Example Files**](https://github.com/victorvanpelt/research_pipeline_example) and [**Slides**](https://tinyurl.com/datamanagementslides)
 
@@ -100,7 +112,7 @@ About 30% of the articles could not be reproduced, even under the new policy [@F
 
 1.  Directory structure: How to organize your research project
 
-2.  Version control: Using Git and repositories (example using Github)
+2.  Version control: Using Git and repositories (example using GitHub)
 
 3.  Integrating multiple languages: Example using Quarto
 
@@ -118,20 +130,25 @@ Following principles is critical, especially for projects with lots of data and 
 -   Anyone can understand the code and data without much effort.
 -   Anyone can update the code on the spot without breaking it (dynamic coding).
 
-## 1. Directory Structure: How to accomplish this?
+## 1. Directory Structure: Structure the flow
 
 -   Use a flow-inspired folder structure:
     -   E.g., formatting files -\> generating variables -\> conducting analyses -\> generating output.
 -   Leave the raw data untouched: You load it and use it to produce output:
     -   E.g., raw data files -\> input files -\> process files -\> output files.
 -   Use relative paths (e.g., "*../0_data/data.csv*") and not direct paths (e.g., "*C:/user\[name\]/Documents/research/project_1/0_data/data.csv*").
--   The code is deterministic. Random and stochastic processes ideally require a seed.
--   Do not leave blindspots in your coding and analysis
-    -   Use plenty of comments to explain what the code is doing.
-    -   Be as descriptive as you can in folder and filenames
--   Use environmental variables for credentials and software paths
 
-## 1. Directory Structure: An simple starting point
+\takeaway{Anyone should be able to delete everything except the raw data and the code, and rebuild your whole project.}
+
+## 1. Directory Structure: Code so others can run it
+
+-   Make your code deterministic: set a seed for random and stochastic processes.
+-   Pin your environment: "*version*" in Stata, *renv* in R.
+-   Use plenty of comments to explain what the code is doing.
+-   Be as descriptive as you can in folder and file names.
+-   Use environment variables for credentials and software paths.
+
+## 1. Directory Structure: A simple starting point
 
 \begin{center}
 \includegraphics[width =0.75\textwidth]{"images/figure4.png"}
@@ -165,19 +182,25 @@ The same analysis also ships in R ("*code.r*") and Quarto ("*code.qmd*")
 
 ## 1. Directory Structure: Reproducing all results instantly
 
-\centering
+How would you reproduce all results of your current project?
 
-Who can reproduce all their results using a single command or script?
+1.  One command rebuilds everything (a makefile or master script)
+
+2.  A script per step, run by hand in the right order
+
+3.  Point and click, from memory
 
 ## 1. Directory Structure: makefile.mak in root
 
-![](images/paste-19.png){fig-align="center" height="250"}
+\centering
+
+A makefile states which outputs depend on which code and data, and how to rebuild them ![](images/paste-19.png){fig-align="center" height="235"}
 
 ## 1. Directory Structure: makefile.mak in root
 
 \centering
 
-You run "*make -f makefile.mak*" in the CLI to rebuild everything, or a single step with "*make r*", "*make stata*", "*make paper*", or "*make slides*" ![](images/paste-16.png){fig-align="center" height="125"}
+You run "*make*" in the CLI to rebuild everything, or a single step with "*make r*", "*make stata*", "*make paper*", or "*make slides*" ![](images/paste-16.png){fig-align="center" height="125"}
 
 ## 1. Directory Structure: Is your code slow?
 
@@ -186,7 +209,8 @@ You run "*make -f makefile.mak*" in the CLI to rebuild everything, or a single s
     -   Require too much memory?
 -   Ask your supervisor for a new laptop.
 -   Otherwise, consider looking into running your code remotely:
-    -   "super computer,"grid", or "server" allows you to run your code using way more powerful hardware.
+    -   A "supercomputer," "grid," or "server" allows you to run your code using much more powerful hardware.
+    -   Ask about your school's research computing services.
 
 # 2. Version Control
 
@@ -210,35 +234,36 @@ Version control is a system that records changes to a file or set of files over 
 
 ## 2. Version control: How to use version control
 
--   Many cloud services have some forms of version control (e.g., Dropbox and Onedrive), but they can be too simplistic and unreliable.
+-   Many cloud services have some forms of version control (e.g., Dropbox and OneDrive), but they can be too simplistic and unreliable.
 -   The most widely used software is called [**git**](https://git-scm.com/)
--   You can run [**git**](https://git-scm.com/) locally using the CL, but it is easier to use an online provider.
--   Saving your version control online reduces the likelihood you loose stuff.
+-   You can run [**git**](https://git-scm.com/) locally using the command line (CLI), but it is easier to use an online provider.
+-   Saving your version control online reduces the likelihood you lose stuff.
 -   Three major [**git**](https://git-scm.com/) providers:
     -   GitHub --\> The best choice!
-    -   BitBucket
+    -   Bitbucket
     -   GitLab
+    -   (EU nonprofit alternative: Codeberg)
 
-## 2. Version control: What is Github?
+## 2. Version control: What is GitHub?
 
--   GitHub Inc. is a web-based hosting service for version control using Git. It is mostly used for computer code. It offers all of the distributed version control and source code management functionality of Git as well as adding its own features.
+-   GitHub hosts your git repositories online and adds collaboration tools around them.
 -   Why use it?
-    -   Clean and easy to use interface
-    -   Native support for all kinds of software
+    -   Clean and easy-to-use interface
+    -   Works with any language and file type
     -   GitHub Desktop application is very simple and convenient
--   Bonus feature: you can use GitHub pages to host your website for free! See mine [**www.victorvanpelt.com**](www.victorvanpelt.com)
+-   Bonus feature: you can use GitHub Pages to host your website for free! See mine [**www.victorvanpelt.com**](https://www.victorvanpelt.com)
 
-## 2. Version control: GitHub Enterprise
+## 2. Version control: GitHub Education
 
 \centering
 
-You can apply for GitHub Enterprise as a researcher or student [**here**](https://education.github.com/discount_requests/application). ![](images/paste-14.png){fig-align="center" height="225"}
+As a verified student, you get GitHub Pro and the Student Developer Pack for free [**here**](https://education.github.com/pack). ![](images/paste-14.png){fig-align="center" height="225"}
 
 ## 2. Version control: GitHub Desktop
 
 \centering
 
-Download the GitHub Desktop for Windows or MacOS [**here**](https://github.com/apps/desktop). ![](images/paste-15.png){fig-align="center" height="225"}
+Download GitHub Desktop for Windows or macOS [**here**](https://desktop.github.com/download/). ![](images/paste-15.png){fig-align="center" height="225"}
 
 ## 2. Version control: Basic Workflow
 
@@ -246,47 +271,47 @@ Download the GitHub Desktop for Windows or MacOS [**here**](https://github.com/a
     -   Create a new repository on GitHub
     -   Clone it to your computer (Copy URL and enter in GitHub Desktop)
 -   When you start working:
-    -   Sync with Github first: "Pull" changes
+    -   Sync with GitHub first: "Pull" changes
 -   When making changes:
-    -   Sync with Github first: "Pull" changes
+    -   Sync with GitHub first: "Pull" changes
     -   Create commit (add summary and descriptions)
     -   Push commit to GitHub.
 -   Use a README.md file to state the project's title and a brief description of the repository.
 
 ## 2. Version control: .gitignore files
 
--   There are lots of things you might not want to sync with Github
+-   There are lots of things you might not want to sync with GitHub
     1.  Private or non-public data
     2.  Personal credentials
     3.  "Byproduct" files
--   You would like to think about what to precisely sync with Github.
+-   Think carefully about what you sync with GitHub.
 -   A .gitignore file allows you to select files that should automatically be ignored by git.
 
 ## 2. Version control: .gitignore syntax
 
 -   The basic syntax can be found [**here**](https://git-scm.com/docs/gitignore)**.**
 -   Some common expressions:
-    -   \# → comment
-    -   \* → any file name
-    -   \*\* → any folder depth
-    -   / at the end → folder
-    -   ! → keep (don’t ignore)
+    -   \# -\> comment
+    -   \* -\> any file name
+    -   \*\* -\> any folder depth
+    -   / at the end -\> folder
+    -   ! -\> keep (don’t ignore)
 
 ## 2. Version control: .gitignore example
 
 \centering
 
-![](images/paste-5.png){fig-align="center" height="225"}
+The example repository ignores everything by default, then allows back what should be shared: the safest default for private data ![](images/paste-5.png){fig-align="center" height="210"}
 
 ## 2. Version control: Why should you care?
 
 -   Go back to any version at any time!
 -   Journals and institutions are increasingly requesting access to your research materials (i.e., code, instrument, and data).
 -   At the very least, they want to ensure it exists.
--   At the very most, they will put a researcher on checking every part of your code (e.g., MS)
--   This trend is growing... For example, two journals in my area:
-    -   Journal of Accounting Research
-    -   Management Science
+-   At the very most, they have your code checked line by line. Two journals in my area:
+    -   *Management Science* has verified reproducibility since 2019, partly through a third-party agency (CASCaD). Since 2025, a \$79 submission fee helps fund these checks.
+    -   *Journal of Accounting Research* expects a full description of data provenance and processing.
+-   With the structure from chapter 1, compliance is nearly free.
 
 # 3. Integrating Multiple Languages
 
@@ -317,7 +342,8 @@ Download the GitHub Desktop for Windows or MacOS [**here**](https://github.com/a
     -   Presentations (this presentation is made using Quarto)
     -   Dashboards
     -   Websites
--   Best integration support for Markdown, R, Python, Jupyter, and LaTeX.
+-   Runs R (Knitr), Python and Julia (Jupyter), and Observable JS next to Markdown and LaTeX.
+-   Quarto 2 (late 2026) stays backward compatible; your .qmd files keep working.
 
 ## 3. Integrating multiple languages: How to get started?
 
@@ -356,17 +382,19 @@ Usage:
 
 \begin{figure}[h!]
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.42\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/paste-17.png}
     \end{subfigure}
     \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.42\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/paste-18.png}
     \end{subfigure}
     \caption*{}
 \end{figure}
+
+\takeaway{One pipeline, three outputs (report, paper, slides), and the numbers always in sync.}
 
 ## 3. Integrating multiple languages: makefile.mak extension
 
@@ -392,45 +420,107 @@ An AI hands you a beautiful regression table. Can you defend every number in it?
 Picture an agent that just ran a robustness check and handed back a polished regression table, formatted, significant stars included. It looks publication ready. The real question is whether we could stand in front of a committee and defend every number in it: where the data came from, what transformation produced each column, why the standard errors are clustered that way. Most of us have used a chatbot to draft or check code at some point. Far fewer of us could immediately defend a result a chat window produced on its own. This chapter asks how we get real help from AI agents without losing ownership of our own results.
 :::
 
-## 4. AI agents: From chatbots to agents that work inside your project
+## 4. AI agents: From chatbots to agents inside your project
 
+::::: columns
+::: {.column width="45%"}
 -   Chat window: you paste, it answers, you paste back
--   Agent: reads your files, edits code directly
--   Runs commands, reads the errors itself
--   Iterates until the pipeline works
--   Examples: Claude Code, OpenAI Codex, Copilot, Cursor
+-   Agent: reads your files, edits code, runs commands
+-   It iterates until the pipeline runs
+-   Examples: Claude Code, OpenAI Codex, GitHub Copilot, Cursor
+:::
+
+::: {.column width="55%"}
+![](images/paste-21.png)
+:::
+:::::
 
 \process{Read files,Edit code,Run make,Read errors,Fix}
 
 ::: notes
-A chat window is just a text box: we paste in code or a question, the model answers, and we paste the answer back into our files by hand. Nothing the model does touches the project directly. An agentic workflow works differently. Think of cooking: instead of texting a friend for a recipe fix, we hand them the kitchen. They open the fridge, see what's actually there, adjust the dish, taste it, adjust again. An agent like Claude Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual files, edits code in place, runs a command such as make, reads the error that comes back, and revises until it works. That loop, read, edit, run, read errors, fix, is what turns a chatbot into a collaborator inside the pipeline.
+A chat window is just a text box: we paste in code or a question, the model answers, and we paste the answer back into our files by hand. Nothing the model does touches the project directly. An agent works differently. Think of cooking: instead of texting a friend for a recipe fix, we hand them the kitchen. They open the fridge, see what's actually there, adjust the dish, taste it, adjust again. An agent like Claude Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual files, edits code in place, runs make, reads the error that comes back, and revises until it works. That loop, read, edit, run, read errors, fix, is what turns a chatbot into a collaborator inside the pipeline. One caution: these tools change fast. Google already renamed and merged its own coding agent this year, so write down which tool and model you used, and expect the names to change.
+:::
+
+## 4. AI agents: What can an agent do for your research?
+
+::::: columns
+::: {.column width="50%"}
+**Strong help**
+
+-   Cleaning and reshaping data
+-   Drafting analysis code
+-   Explaining errors
+-   Converting between Stata, R, and Quarto
+-   Polishing prose
+:::
+
+::: {.column width="50%"}
+**Handle with care**
+
+-   Literature claims and citations (it invents them)
+-   Statistical judgment calls
+-   Interpreting your results
+-   Anything you cannot verify yourself
+:::
+:::::
+
+\takeaway{Use agents where output is checkable. Your judgment is not delegable.}
+
+\source{Korinek (2023, 2025); de Kok (2025)}
+
+::: notes
+The pattern behind the two columns is checkability. Reshaping a panel dataset is checkable: the code either reproduces the numbers or it does not. Whether year fixed effects are the right design choice is judgment, and a model will happily argue either side. Citations are the classic trap, because models invent plausible references with real journal names. Korinek maps these use cases for economists, and de Kok shows what careful validation looks like for textual analysis in our field. The rule of thumb: we can delegate generation, we can never delegate verification.
+:::
+
+## 4. AI agents: What the evidence shows
+
+\doublestat{24\%}{expected speed-up from AI}{19\%}{measured slowdown in a randomized trial}
+
+-   On well-scoped tasks, AI made developers 56% faster; on their own mature code, slower
+-   The best agent reproduced 78% of papers in a 2026 benchmark; nudged to "match the paper", it often fabricated instead of saying no
+-   Generation is cheap; verification is your job
+
+\source{METR (2025); Peng et al. (2023); Alizadeh et al. (2026)}
+
+::: notes
+The number pair comes from a 2025 randomized trial by METR: sixteen experienced developers, 246 real tasks, in their own mature repositories. They expected AI to make them 24 percent faster. Measured, they were 19 percent slower, and afterwards they still believed they had been faster. An earlier Copilot trial found the opposite on a small, well-scoped task: 56 percent faster. The difference is the task, not the tool, and your dissertation repo is the mature-codebase case. The 2026 benchmark is encouraging and sobering at once. Claude Code reproduced 78 percent of social science papers end to end. But when nudged to match the paper's numbers, it often fabricated plausible results instead of reporting failure. Trust comes from verification, not from confidence.
 :::
 
 ## 4. AI agents: Working in the dark makes results irreproducible
 
 -   Numbers copy-pasted from a chat window
 -   Edits made outside git, never tracked
--   Prompts nobody saved or can rerun
--   Provenance nobody can explain later
+-   Prompts nobody saved; models get retired, chats cannot be rerun
 -   Roughly one in three articles not reproducible, even with disclosure [@FGHKO_2023]
--   Your committee and journals will ask you, not the AI
+
+\bigbreak
+
+\highlightbox{A US court fined two lawyers \$5{,}000 for citing six cases ChatGPT had invented. Asked to double-check, ChatGPT vouched for its own fakes (Mata v. Avianca, 2023).}
 
 ::: notes
-Dark use means AI is helping, but none of that help lives in the project. A result gets copied from a chat window straight into a draft. An agent edits a file and nobody looks at what changed. The prompt that produced a number sits in a chat history nobody saved. Months later, nobody, including us, can explain where that number came from. Fišar et al. 2023 found that roughly a third of Management Science articles could not be reproduced, even under a strict data and code disclosure policy, before agents were part of the picture. Add an unrecorded chat on top of that, and reproducibility gets worse, not better. When a committee or a journal asks us to defend a number, "the AI produced it" is not an answer they will accept, and it should not be one we accept either.
+Dark use means AI is helping, but none of that help lives in the project. A result gets copied from a chat window straight into a draft. An agent edits a file and nobody looks at what changed. The prompt that produced a number sits in a chat history nobody saved. And chats age badly: providers retire models, so a chat-based step can become unrunnable while code stays runnable. Fišar et al. found that roughly a third of Management Science articles could not be reproduced, even under a strict disclosure policy, before agents were part of the picture. Add an unrecorded chat on top of that, and reproducibility gets worse, not better. The court case in the box is what no-verification looks like: the lawyers asked the same chat window to check its own work, and it vouched for its own fabrications. When a committee or a journal asks us to defend a number, "the AI produced it" is not an answer they will accept, and it should not be one we accept either.
 :::
 
-## 4. AI agents: Your pipeline is the guardrail that keeps AI transparent
+## 4. AI agents: Your pipeline is the guardrail
 
--   Numbered folders scope what the agent may touch
--   "*0_data*" stays read-only, always
--   git turns every agent edit into a diff
--   make is the contract that verifies results
--   README gives the agent project context
+::::: columns
+::: {.column width="52%"}
+-   **Numbered folders** scope what the agent may touch
+-   "*0_data*" stays read-only: the one hard rule
+-   **git** turns every agent edit into a reviewable diff
+-   **make** verifies every number with one command
+-   **README + AGENTS.md** are the agent's onboarding memo
+:::
+
+::: {.column width="48%"}
+![](images/paste-23.png)
+:::
+:::::
 
 \takeaway{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
 ::: notes
-The same structure from chapters one through three is what makes agents safe to use. Numbered folders already scope what belongs where, so an agent editing 1_code has no business touching 3_output by hand. 0_data stays read-only for the agent exactly as it does for us, real data is never regenerated or overwritten. Because everything lives in git, any change the agent makes shows up as a diff we can read before committing it. make is the contract: if the pipeline runs clean from raw data to draft, the result is verified, not just plausible. A README gives the agent the same onboarding a new collaborator would need. None of this requires trusting the agent's judgment, it requires trusting the guardrails we already built.
+The same structure from chapters one through three is what makes agents safe to use. Numbered folders already scope what belongs where, so an agent editing 1_code has no business touching 3_output by hand. 0_data stays read-only for the agent exactly as it does for us, real data is never regenerated or overwritten. Because everything lives in git, any change the agent makes shows up as a diff we can read before committing it. make is the contract: if the pipeline runs clean from raw data to draft, the result is verified, not just plausible. The file on the right is real and now ships with the example repository. AGENTS.md is "a README for agents": an open standard since 2025, used in over sixty thousand repositories and read by most major tools, while Claude Code reads a CLAUDE.md. It gives the agent the same onboarding a new collaborator would need. None of this requires trusting the agent's judgment, it requires trusting the guardrails we already built.
 :::
 
 ## 4. AI agents: The agent edits, you review the diff
@@ -438,10 +528,9 @@ The same structure from chapters one through three is what makes agents safe to 
 ::::: columns
 ::: {.column width="42%"}
 -   Prompt: winsorize scaled earnings at 1st/99th percentile
--   Agent edits "*1_code/code.r*" directly
+-   The agent edits "*1_code/code.r*" directly
 -   You run git diff before committing
--   Check: only "*1_code*" touched
--   Check: winsorize sits before the regression
+-   Check: only "*1_code*" touched, and the step sits before the regression
 -   Check: "*0_data*" and "*3_output*" untouched by hand
 :::
 
@@ -456,62 +545,87 @@ Say we ask an agent to add a robustness check: winsorize scaled earnings at the 
 
 ## 4. AI agents: The agent runs make, you rerun it yourself
 
--   Agent runs "*make -f makefile.mak*"
--   Reads the error, proposes a fix
+::::: columns
+::: {.column width="45%"}
+-   The agent may run make and fix its own errors
 -   Your rule: "*make clean*", then "*make*"
--   Rerun it yourself, on your machine
+-   On your machine, from raw data to drafts
 -   Numbers flow from the pipeline, not a chat
+:::
+
+::: {.column width="55%"}
+![](images/paste-22.png)
+:::
+:::::
 
 ::: notes
-Suppose make -f makefile.mak fails after the agent's edit, maybe a data type mismatch in the new winsorizing step. A good agent reads that error itself and proposes a fix, the same way it read the file in the first place. Letting it iterate is fine. What matters is what we do next. Before trusting any number in the draft, we run make clean, wiping every intermediate and output file, then make -f makefile.mak from scratch, on our own machine, not the agent's sandbox. If the pipeline reproduces cleanly from 0_data through 4_drafts, the numbers are real. This is the payoff from chapter three: because the paper and slides are dynamic documents pulling numbers straight from 3_output, rerunning the pipeline re-verifies every number in the draft. None of it comes from a chat window, all of it comes from code we can rerun.
+Suppose make fails after the agent's edit, maybe a data type mismatch in the new winsorizing step. A good agent reads that error itself and proposes a fix, the same way it read the file in the first place. Letting it iterate is fine. What matters is what we do next. Before trusting any number in the draft, we run make clean, wiping every intermediate and output file, then make from scratch, on our own machine, not the agent's sandbox. If the pipeline reproduces cleanly from 0_data through 4_drafts, the numbers are real. This is the payoff from chapter three: because the paper and slides are dynamic documents pulling numbers straight from 3_output, rerunning the pipeline re-verifies every number in the draft. None of it comes from a chat window, all of it comes from code we can rerun.
+:::
+
+## 4. AI agents: What leaves your machine, and what do you disclose?
+
+::::: columns
+::: {.column width="50%"}
+**Before you paste**
+
+-   Assume consumer chat apps train on and keep what you paste
+-   Keep licensed data (WRDS, Compustat) and confidential data out; check the license first
+-   Use institutional or API access, or a local model, for sensitive projects
+:::
+
+::: {.column width="50%"}
+**Before you submit**
+
+-   Disclose GenAI use: *CAR* wants it described "transparently and in detail" in Methods
+-   Never list AI as an author; the responsibility stays yours
+-   Log model, prompt, and validation: an AI Use Statement in your README
+:::
+:::::
+
+\source{CAR editorial policies (2024); ICMJE/COPE; World Bank, Documenting AI Use for Reproducible Research (2026)}
+
+::: notes
+Two checklists, one for data going out, one for text coming in. On privacy, the default settings of consumer chat apps can use our pastes for training and keep them for years, while API and institutional tiers do not train by default, and a local model sends nothing at all. Licensed databases like WRDS or Compustat restrict redistribution, so check the license before an extract goes anywhere. At a European school, GDPR adds its own transfer rules for personal data. On disclosure, our own journals moved first: CAR has required a declaration since 2024, and management journals are broadening what counts as disclosable AI use. Management Science also bars reviewers from uploading manuscripts into these tools, so confidentiality cuts both ways. The last line is the cheapest insurance: keep the model name, the prompt, and how you validated the output with the project, and your methods section writes itself.
 :::
 
 ## 4. AI agents: Where could an agent silently break your project?
 
 \discussionprompt{Where could an AI agent silently break your research project? Think alone (2 min), compare with your neighbor (2 min), share one risk with the room (1 min).}
 
--   Think (2 min): where could an agent break things unnoticed?
--   Pair (2 min): compare notes, agree on top risk
--   Share (1 min): one risk per pair, aloud
--   Debrief: name the pattern, not just the example
+\bigbreak
+
+Debrief: name the pattern, not just the example.
 
 ::: notes
 For the next five minutes, work through this in three stages. First, two minutes alone: where in our own workflow could an agent make a change we would not notice? Think about our own projects, not just this repo. Second, two minutes with a partner: compare what we each came up with, and agree on the one risk most likely to bite us. Third, one minute where a few pairs share their top risk with the room. I'm listening for a specific set of answers. Strong answers name specific failure modes. An agent edits a file outside git, so the change never shows up in a diff. An agent touches 0_data directly instead of treating it as read-only. A number lands in the draft without anyone rerunning make. Confidential data gets pasted into a chat window and leaves the machine entirely. If the room goes quiet during the pair stage, here's a prompt to restart the conversation: what would the agent have to touch for us not to notice? That question tends to surface blind spots fast, because it forces us to think about what we are not currently checking. We'll spend the last minute naming these out loud, because the goal is not a perfect list, it's noticing that these failure modes are all about visibility, not about the AI itself.
 :::
 
-## 4. AI agents: Rules of engagement for reproducible AI use
-
--   Opaque AI use breaks reproducibility
--   Your pipeline is the agent's guardrail
--   Review the diff, rerun make, every time
-
-\small
+## 4. AI agents: Rules of engagement
 
 ::::: columns
-::: {.column width="55%"}
+::: {.column width="50%"}
 **Do**
 
--   Agent works inside the repo
--   Raw data in "*0_data*" stays read-only
+-   Let the agent work inside the repo, under git
+-   Keep "*0_data*" read-only, always
 -   Review every diff before committing
 -   Rerun the pipeline before trusting a number
--   Credentials live in environment variables
 :::
 
-::: {.column width="45%"}
+::: {.column width="50%"}
 **Never**
 
--   Chat-window analyses copied into the draft
--   Confidential data pasted into a chat
+-   Numbers from a chat window into a draft
+-   Confidential or licensed data into a chat
+-   Undisclosed AI use in a submission
+-   Hand-edits to "*3_output*", by you or the agent
 :::
 :::::
-
-\normalsize
 
 \takeaway{AI amplifies your data management. The pipeline turns it from a black box into a reviewable collaborator.}
 
 ::: notes
-Three things to take home. First, AI used in the dark, chat windows and untracked edits, produces numbers nobody can defend. Second, the pipeline we built today is exactly what keeps an agent transparent: it works in files, under git, against make. Third, the routine is short. We read the diff before we commit, and we rerun the pipeline before we trust a number. Two honest caveats. Output is often wrong, confidently wrong, so verification is not optional. And skipping AI entirely remains a valid way to do a PhD. When the agent added our winsorizing step, the diff showed one changed file in 1_code, and a clean make rebuilt the same table in the draft. That is what owning an AI-assisted result looks like.
+Three things to take home. First, AI used in the dark, chat windows and untracked edits, produces numbers nobody can defend. Second, the pipeline we built today is exactly what keeps an agent transparent: it works in files, under git, against make. Third, the routine is short. We read the diff before we commit, we rerun the pipeline before we trust a number, and we disclose the use when we submit. Two honest caveats. Output is often wrong, confidently wrong, so verification is not optional. And skipping AI entirely remains a valid way to do a PhD. When the agent added our winsorizing step, the diff showed one changed file in 1_code, and a clean make rebuilt the same table in the draft. That is what owning an AI-assisted result looks like.
 :::
 
 ## Summary and Wrap-up
@@ -537,9 +651,10 @@ Three things to take home. First, AI used in the dark, chat windows and untracke
 -   Ideally, we also need:
     -   Research material sharing (data, instruments, and code)
     -   Pre-registration
--   Many journals and institutions offer ways to pre-register and collect research all materials (not just data and code) in one place.
+-   Many journals and institutions offer ways to pre-register and collect all research materials (not just data and code) in one place.
     -   You can sync your repositories as well!
--   My recommendation is to use the [**Open Science Foundation**](https://osf.io/)
+-   My recommendation is to use the [**Open Science Framework (OSF)**](https://osf.io/)
+-   Steal a template: the [**TIER Protocol**](https://www.projecttier.org/tier-protocol/protocol-4-0/) and the [**AEA template README**](https://social-science-data-editors.github.io/template_README/)
 
 ## Thank you!
 

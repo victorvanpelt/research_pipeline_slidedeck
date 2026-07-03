@@ -537,7 +537,7 @@
 \title{Data Management}
 \subtitle{Doctoral Orientation Week}
 \author{Dr.~Victor van Pelt}
-\date{July 2, 2026}
+\date{July 3, 2026}
 \institute{WHU -- Otto Beisheim School of Management}
 
 \begin{document}
@@ -546,7 +546,7 @@
 
 \begin{frame}{Opening Question}
 \phantomsection\label{opening-question}
-Let's say you wrote your a research paper and your laptop died. How long
+Let's say you wrote a research paper and your laptop died. How long
 would it take you to reproduce your analyses with a new laptop?
 
 \begin{enumerate}
@@ -590,8 +590,9 @@ Policy:
 data, programs, and other details of the experiment and computations
 sufficient to permit replication.''}
 
-A 2023 study examined nearly 500 articles published under this policy to
-see if the results could, in fact, be reproduced (Fišar et al. 2023).
+A 2024 study examined nearly 500 articles published before and after
+this policy was introduced to see if the results could, in fact, be
+reproduced (Fišar et al. 2024).
 
 \textbf{What share of these articles do you think were largely
 reproducible?}
@@ -605,8 +606,8 @@ reproducible?}
 
 \centering
 
-About 30\% of the articles could not be reproduced, even under the new
-policy (Fišar et al. 2023)
+Across all articles under the new policy, 68\% could be reproduced. When
+data and software were accessible, over 95\% could (Fišar et al. 2024)
 \end{frame}
 
 \begin{frame}{But there is more at stake!}
@@ -616,7 +617,11 @@ policy (Fišar et al. 2023)
 \begin{itemize}
 \tightlist
 \item
-  Nearly one in three papers fails the reproducibility test.
+  Even under the policy, nearly one in three papers fails the
+  reproducibility test.
+\item
+  Before the policy, it was worse: only 12\% of articles shared any
+  materials at all.
 \item
   This is why good data and code management is not only a ``nice to
   have.''
@@ -624,7 +629,7 @@ policy (Fišar et al. 2023)
   It's also essential for credible research and for us to trust the
   insights it produces.
 \item
-  But this does not just depends on how professors manage their data and
+  But this does not just depend on how professors manage their data and
   code.
 \item
   It all starts with:
@@ -633,6 +638,19 @@ policy (Fišar et al. 2023)
 \begin{center}
 \includegraphics[width =0.20\textwidth]{"images/you.png"} \\
 \end{center}
+\end{frame}
+
+\begin{frame}{What one PhD student found}
+\phantomsection\label{what-one-phd-student-found}
+\doublestat{-0.1\%}{average growth of high-debt countries, as published}{+2.2\%}{after one graduate student fixed the spreadsheet}
+
+\centering
+
+A famous 2010 austerity result rested on an Excel formula that skipped
+five countries. Thomas Herndon caught it in a class replication
+assignment.
+
+\source{Herndon, Ash, and Pollin (2014), Cambridge Journal of Economics}
 \end{frame}
 
 \begin{frame}{The main goals of this session:}
@@ -649,13 +667,16 @@ policy (Fišar et al. 2023)
     and Data for the Social Sciences} (Gentzkow and Shapiro)}
   \item
     \href{https://medium.com/data-science/how-to-keep-your-research-projects-organized-part-1-folder-structure-10bd56034d3a}{\textbf{How
-    to keep your research projects organized} (De Kok)}
+    to keep your research projects organized} (de Kok)}
+  \item
+    \href{https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510}{\textbf{Good
+    Enough Practices in Scientific Computing} (Wilson et al.)}
   \item
     My own mistakes and personal experience
   \end{itemize}
 \item
-  Let's make this interactive: Interupt, ask questions, + tell me about
-  your experience.
+  Let's make this interactive: Interrupt, ask questions, and tell me
+  about your experience.
 \item
   Disclaimer: Largely through the lens of a quantitative researcher.
 \item
@@ -672,7 +693,7 @@ policy (Fišar et al. 2023)
 \item
   Directory structure: How to organize your research project
 \item
-  Version control: Using Git and repositories (example using Github)
+  Version control: Using Git and repositories (example using GitHub)
 \item
   Integrating multiple languages: Example using Quarto
 \item
@@ -701,8 +722,8 @@ data and code:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{1. Directory Structure: How to accomplish this?}
-\phantomsection\label{directory-structure-how-to-accomplish-this}
+\begin{frame}{1. Directory Structure: Structure the flow}
+\phantomsection\label{directory-structure-structure-the-flow}
 \begin{itemize}
 \tightlist
 \item
@@ -729,26 +750,31 @@ data and code:
   Use relative paths (e.g., ``\emph{../0\_data/data.csv}'') and not
   direct paths (e.g.,
   ``\emph{C:/user{[}name{]}/Documents/research/project\_1/0\_data/data.csv}'').
-\item
-  The code is deterministic. Random and stochastic processes ideally
-  require a seed.
-\item
-  Do not leave blindspots in your coding and analysis
+\end{itemize}
 
-  \begin{itemize}
-  \tightlist
-  \item
-    Use plenty of comments to explain what the code is doing.
-  \item
-    Be as descriptive as you can in folder and filenames
-  \end{itemize}
+\takeaway{Anyone should be able to delete everything except the raw data and the code, and rebuild your whole project.}
+\end{frame}
+
+\begin{frame}{1. Directory Structure: Code so others can run it}
+\phantomsection\label{directory-structure-code-so-others-can-run-it}
+\begin{itemize}
+\tightlist
 \item
-  Use environmental variables for credentials and software paths
+  Make your code deterministic: set a seed for random and stochastic
+  processes.
+\item
+  Pin your environment: ``\emph{version}'' in Stata, \emph{renv} in R.
+\item
+  Use plenty of comments to explain what the code is doing.
+\item
+  Be as descriptive as you can in folder and file names.
+\item
+  Use environment variables for credentials and software paths.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{1. Directory Structure: An simple starting point}
-\phantomsection\label{directory-structure-an-simple-starting-point}
+\begin{frame}{1. Directory Structure: A simple starting point}
+\phantomsection\label{directory-structure-a-simple-starting-point}
 \begin{center}
 \includegraphics[width =0.75\textwidth]{"images/figure4.png"}
 \end{center}
@@ -788,15 +814,25 @@ The same analysis also ships in R (``\emph{code.r}'') and Quarto
 
 \begin{frame}{1. Directory Structure: Reproducing all results instantly}
 \phantomsection\label{directory-structure-reproducing-all-results-instantly}
-\centering
+How would you reproduce all results of your current project?
 
-Who can reproduce all their results using a single command or script?
+\begin{enumerate}
+\item
+  One command rebuilds everything (a makefile or master script)
+\item
+  A script per step, run by hand in the right order
+\item
+  Point and click, from memory
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{1. Directory Structure: makefile.mak in root}
 \phantomsection\label{directory-structure-makefile.mak-in-root}
-\begin{center}
-\includegraphics[width=\linewidth,height=2.60417in,keepaspectratio]{images/paste-19.png}
+\centering
+
+A makefile states which outputs depend on which code and data, and how
+to rebuild them \begin{center}
+\includegraphics[width=\linewidth,height=2.44792in,keepaspectratio]{images/paste-19.png}
 \end{center}
 \end{frame}
 
@@ -804,10 +840,9 @@ Who can reproduce all their results using a single command or script?
 \phantomsection\label{directory-structure-makefile.mak-in-root-1}
 \centering
 
-You run ``\emph{make -f makefile.mak}'' in the CLI to rebuild
-everything, or a single step with ``\emph{make r}'', ``\emph{make
-stata}'', ``\emph{make paper}'', or ``\emph{make slides}''
-\begin{center}
+You run ``\emph{make}'' in the CLI to rebuild everything, or a single
+step with ``\emph{make r}'', ``\emph{make stata}'', ``\emph{make
+paper}'', or ``\emph{make slides}'' \begin{center}
 \includegraphics[width=\linewidth,height=1.30208in,keepaspectratio]{images/paste-16.png}
 \end{center}
 \end{frame}
@@ -834,8 +869,10 @@ stata}'', ``\emph{make paper}'', or ``\emph{make slides}''
   \begin{itemize}
   \tightlist
   \item
-    ``super computer,''grid'', or ``server'' allows you to run your code
-    using way more powerful hardware.
+    A ``supercomputer,'' ``grid,'' or ``server'' allows you to run your
+    code using much more powerful hardware.
+  \item
+    Ask about your school's research computing services.
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -871,15 +908,15 @@ files over time so that you can recall specific versions later.
 \tightlist
 \item
   Many cloud services have some forms of version control (e.g., Dropbox
-  and Onedrive), but they can be too simplistic and unreliable.
+  and OneDrive), but they can be too simplistic and unreliable.
 \item
   The most widely used software is called
   \href{https://git-scm.com/}{\textbf{git}}
 \item
   You can run \href{https://git-scm.com/}{\textbf{git}} locally using
-  the CL, but it is easier to use an online provider.
+  the command line (CLI), but it is easier to use an online provider.
 \item
-  Saving your version control online reduces the likelihood you loose
+  Saving your version control online reduces the likelihood you lose
   stuff.
 \item
   Three major \href{https://git-scm.com/}{\textbf{git}} providers:
@@ -889,46 +926,47 @@ files over time so that you can recall specific versions later.
   \item
     GitHub --\textgreater{} The best choice!
   \item
-    BitBucket
+    Bitbucket
   \item
     GitLab
+  \item
+    (EU nonprofit alternative: Codeberg)
   \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{2. Version control: What is Github?}
+\begin{frame}{2. Version control: What is GitHub?}
 \phantomsection\label{version-control-what-is-github}
 \begin{itemize}
 \tightlist
 \item
-  GitHub Inc.~is a web-based hosting service for version control using
-  Git. It is mostly used for computer code. It offers all of the
-  distributed version control and source code management functionality
-  of Git as well as adding its own features.
+  GitHub hosts your git repositories online and adds collaboration tools
+  around them.
 \item
   Why use it?
 
   \begin{itemize}
   \tightlist
   \item
-    Clean and easy to use interface
+    Clean and easy-to-use interface
   \item
-    Native support for all kinds of software
+    Works with any language and file type
   \item
     GitHub Desktop application is very simple and convenient
   \end{itemize}
 \item
-  Bonus feature: you can use GitHub pages to host your website for free!
-  See mine \href{www.victorvanpelt.com}{\textbf{www.victorvanpelt.com}}
+  Bonus feature: you can use GitHub Pages to host your website for free!
+  See mine
+  \href{https://www.victorvanpelt.com}{\textbf{www.victorvanpelt.com}}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{2. Version control: GitHub Enterprise}
-\phantomsection\label{version-control-github-enterprise}
+\begin{frame}{2. Version control: GitHub Education}
+\phantomsection\label{version-control-github-education}
 \centering
 
-You can apply for GitHub Enterprise as a researcher or student
-\href{https://education.github.com/discount_requests/application}{\textbf{here}}.
+As a verified student, you get GitHub Pro and the Student Developer Pack
+for free \href{https://education.github.com/pack}{\textbf{here}}.
 \begin{center}
 \includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-14.png}
 \end{center}
@@ -938,8 +976,9 @@ You can apply for GitHub Enterprise as a researcher or student
 \phantomsection\label{version-control-github-desktop}
 \centering
 
-Download the GitHub Desktop for Windows or MacOS
-\href{https://github.com/apps/desktop}{\textbf{here}}. \begin{center}
+Download GitHub Desktop for Windows or macOS
+\href{https://desktop.github.com/download/}{\textbf{here}}.
+\begin{center}
 \includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-15.png}
 \end{center}
 \end{frame}
@@ -964,7 +1003,7 @@ Download the GitHub Desktop for Windows or MacOS
   \begin{itemize}
   \tightlist
   \item
-    Sync with Github first: ``Pull'' changes
+    Sync with GitHub first: ``Pull'' changes
   \end{itemize}
 \item
   When making changes:
@@ -972,7 +1011,7 @@ Download the GitHub Desktop for Windows or MacOS
   \begin{itemize}
   \tightlist
   \item
-    Sync with Github first: ``Pull'' changes
+    Sync with GitHub first: ``Pull'' changes
   \item
     Create commit (add summary and descriptions)
   \item
@@ -989,7 +1028,7 @@ Download the GitHub Desktop for Windows or MacOS
 \begin{itemize}
 \tightlist
 \item
-  There are lots of things you might not want to sync with Github
+  There are lots of things you might not want to sync with GitHub
 
   \begin{enumerate}
   \tightlist
@@ -1001,7 +1040,7 @@ Download the GitHub Desktop for Windows or MacOS
     ``Byproduct'' files
   \end{enumerate}
 \item
-  You would like to think about what to precisely sync with Github.
+  Think carefully about what you sync with GitHub.
 \item
   A .gitignore file allows you to select files that should automatically
   be ignored by git.
@@ -1021,15 +1060,15 @@ Download the GitHub Desktop for Windows or MacOS
   \begin{itemize}
   \tightlist
   \item
-    \# → comment
+    \# -\textgreater{} comment
   \item
-    * → any file name
+    * -\textgreater{} any file name
   \item
-    ** → any folder depth
+    ** -\textgreater{} any folder depth
   \item
-    / at the end → folder
+    / at the end -\textgreater{} folder
   \item
-    ! → keep (don't ignore)
+    ! -\textgreater{} keep (don't ignore)
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -1038,8 +1077,10 @@ Download the GitHub Desktop for Windows or MacOS
 \phantomsection\label{version-control-.gitignore-example}
 \centering
 
+The example repository ignores everything by default, then allows back
+what should be shared: the safest default for private data
 \begin{center}
-\includegraphics[width=\linewidth,height=2.34375in,keepaspectratio]{images/paste-5.png}
+\includegraphics[width=\linewidth,height=2.1875in,keepaspectratio]{images/paste-5.png}
 \end{center}
 \end{frame}
 
@@ -1055,18 +1096,21 @@ Download the GitHub Desktop for Windows or MacOS
 \item
   At the very least, they want to ensure it exists.
 \item
-  At the very most, they will put a researcher on checking every part of
-  your code (e.g., MS)
-\item
-  This trend is growing\ldots{} For example, two journals in my area:
+  At the very most, they have your code checked line by line. Two
+  journals in my area:
 
   \begin{itemize}
   \tightlist
   \item
-    Journal of Accounting Research
+    \emph{Management Science} has verified reproducibility since 2019,
+    partly through a third-party agency (CASCaD). Since 2025, a \$79
+    submission fee helps fund these checks.
   \item
-    Management Science
+    \emph{Journal of Accounting Research} expects a full description of
+    data provenance and processing.
   \end{itemize}
+\item
+  With the structure from chapter 1, compliance is nearly free.
 \end{itemize}
 \end{frame}
 
@@ -1137,7 +1181,11 @@ challenge?}
     Websites
   \end{itemize}
 \item
-  Best integration support for Markdown, R, Python, Jupyter, and LaTeX.
+  Runs R (Knitr), Python and Julia (Jupyter), and Observable JS next to
+  Markdown and LaTeX.
+\item
+  Quarto 2 (late 2026) stays backward compatible; your .qmd files keep
+  working.
 \end{itemize}
 \end{frame}
 
@@ -1205,17 +1253,19 @@ Example}
 \phantomsection\label{integrating-multiple-languages-quarto-presentation-example-1}
 \begin{figure}[h!]
     \centering
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.42\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/paste-17.png}
     \end{subfigure}
     \hspace{0.05\textwidth}
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.42\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/paste-18.png}
     \end{subfigure}
     \caption*{}
 \end{figure}
+
+\takeaway{One pipeline, three outputs (report, paper, slides), and the numbers always in sync.}
 \end{frame}
 
 \begin{frame}{3. Integrating multiple languages: makefile.mak extension}
@@ -1258,36 +1308,127 @@ chat window produced on its own. This chapter asks how we get real help
 from AI agents without losing ownership of our own results.}
 \end{frame}
 
-\begin{frame}{4. AI agents: From chatbots to agents that work inside
-your project}
-\phantomsection\label{ai-agents-from-chatbots-to-agents-that-work-inside-your-project}
+\begin{frame}{4. AI agents: From chatbots to agents inside your project}
+\phantomsection\label{ai-agents-from-chatbots-to-agents-inside-your-project}
+\begin{columns}[T]
+\begin{column}{0.45\linewidth}
 \begin{itemize}
 \tightlist
 \item
   Chat window: you paste, it answers, you paste back
 \item
-  Agent: reads your files, edits code directly
+  Agent: reads your files, edits code, runs commands
 \item
-  Runs commands, reads the errors itself
+  It iterates until the pipeline runs
 \item
-  Iterates until the pipeline works
-\item
-  Examples: Claude Code, OpenAI Codex, Copilot, Cursor
+  Examples: Claude Code, OpenAI Codex, GitHub Copilot, Cursor
 \end{itemize}
+\end{column}
+
+\begin{column}{0.55\linewidth}
+\pandocbounded{\includegraphics[keepaspectratio]{images/paste-21.png}}
+\end{column}
+\end{columns}
 
 \process{Read files,Edit code,Run make,Read errors,Fix}
 
 \note{A chat window is just a text box: we paste in code or a question,
 the model answers, and we paste the answer back into our files by hand.
-Nothing the model does touches the project directly. An agentic workflow
-works differently. Think of cooking: instead of texting a friend for a
-recipe fix, we hand them the kitchen. They open the fridge, see what's
-actually there, adjust the dish, taste it, adjust again. An agent like
-Claude Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual
-files, edits code in place, runs a command such as make, reads the error
-that comes back, and revises until it works. That loop, read, edit, run,
-read errors, fix, is what turns a chatbot into a collaborator inside the
-pipeline.}
+Nothing the model does touches the project directly. An agent works
+differently. Think of cooking: instead of texting a friend for a recipe
+fix, we hand them the kitchen. They open the fridge, see what's actually
+there, adjust the dish, taste it, adjust again. An agent like Claude
+Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual files,
+edits code in place, runs make, reads the error that comes back, and
+revises until it works. That loop, read, edit, run, read errors, fix, is
+what turns a chatbot into a collaborator inside the pipeline. One
+caution: these tools change fast. Google already renamed and merged its
+own coding agent this year, so write down which tool and model you used,
+and expect the names to change.}
+\end{frame}
+
+\begin{frame}{4. AI agents: What can an agent do for your research?}
+\phantomsection\label{ai-agents-what-can-an-agent-do-for-your-research}
+\begin{columns}[T]
+\begin{column}{0.5\linewidth}
+\textbf{Strong help}
+
+\begin{itemize}
+\tightlist
+\item
+  Cleaning and reshaping data
+\item
+  Drafting analysis code
+\item
+  Explaining errors
+\item
+  Converting between Stata, R, and Quarto
+\item
+  Polishing prose
+\end{itemize}
+\end{column}
+
+\begin{column}{0.5\linewidth}
+\textbf{Handle with care}
+
+\begin{itemize}
+\tightlist
+\item
+  Literature claims and citations (it invents them)
+\item
+  Statistical judgment calls
+\item
+  Interpreting your results
+\item
+  Anything you cannot verify yourself
+\end{itemize}
+\end{column}
+\end{columns}
+
+\takeaway{Use agents where output is checkable. Your judgment is not delegable.}
+
+\source{Korinek (2023, 2025); de Kok (2025)}
+
+\note{The pattern behind the two columns is checkability. Reshaping a
+panel dataset is checkable: the code either reproduces the numbers or it
+does not. Whether year fixed effects are the right design choice is
+judgment, and a model will happily argue either side. Citations are the
+classic trap, because models invent plausible references with real
+journal names. Korinek maps these use cases for economists, and de Kok
+shows what careful validation looks like for textual analysis in our
+field. The rule of thumb: we can delegate generation, we can never
+delegate verification.}
+\end{frame}
+
+\begin{frame}{4. AI agents: What the evidence shows}
+\phantomsection\label{ai-agents-what-the-evidence-shows}
+\doublestat{24\%}{expected speed-up from AI}{19\%}{measured slowdown in a randomized trial}
+
+\begin{itemize}
+\tightlist
+\item
+  On well-scoped tasks, AI made developers 56\% faster; on their own
+  mature code, slower
+\item
+  The best agent reproduced 78\% of papers in a 2026 benchmark; nudged
+  to ``match the paper'', it often fabricated instead of saying no
+\item
+  Generation is cheap; verification is your job
+\end{itemize}
+
+\source{METR (2025); Peng et al. (2023); Alizadeh et al. (2026)}
+
+\note{The number pair comes from a 2025 randomized trial by METR:
+sixteen experienced developers, 246 real tasks, in their own mature
+repositories. They expected AI to make them 24 percent faster. Measured,
+they were 19 percent slower, and afterwards they still believed they had
+been faster. An earlier Copilot trial found the opposite on a small,
+well-scoped task: 56 percent faster. The difference is the task, not the
+tool, and your dissertation repo is the mature-codebase case. The 2026
+benchmark is encouraging and sobering at once. Claude Code reproduced 78
+percent of social science papers end to end. But when nudged to match
+the paper's numbers, it often fabricated plausible results instead of
+reporting failure. Trust comes from verification, not from confidence.}
 \end{frame}
 
 \begin{frame}{4. AI agents: Working in the dark makes results
@@ -1300,45 +1441,55 @@ irreproducible}
 \item
   Edits made outside git, never tracked
 \item
-  Prompts nobody saved or can rerun
-\item
-  Provenance nobody can explain later
+  Prompts nobody saved; models get retired, chats cannot be rerun
 \item
   Roughly one in three articles not reproducible, even with disclosure
-  (Fišar et al. 2023)
-\item
-  Your committee and journals will ask you, not the AI
+  (Fišar et al. 2024)
 \end{itemize}
+
+\bigbreak
+
+\highlightbox{A US court fined two lawyers \$5{,}000 for citing six cases ChatGPT had invented. Asked to double-check, ChatGPT vouched for its own fakes (Mata v. Avianca, 2023).}
 
 \note{Dark use means AI is helping, but none of that help lives in the
 project. A result gets copied from a chat window straight into a draft.
 An agent edits a file and nobody looks at what changed. The prompt that
-produced a number sits in a chat history nobody saved. Months later,
-nobody, including us, can explain where that number came from. Fišar et
-al.~2023 found that roughly a third of Management Science articles could
-not be reproduced, even under a strict data and code disclosure policy,
-before agents were part of the picture. Add an unrecorded chat on top of
-that, and reproducibility gets worse, not better. When a committee or a
-journal asks us to defend a number, ``the AI produced it'' is not an
-answer they will accept, and it should not be one we accept either.}
+produced a number sits in a chat history nobody saved. And chats age
+badly: providers retire models, so a chat-based step can become
+unrunnable while code stays runnable. Fišar et al.~found that roughly a
+third of Management Science articles could not be reproduced, even under
+a strict disclosure policy, before agents were part of the picture. Add
+an unrecorded chat on top of that, and reproducibility gets worse, not
+better. The court case in the box is what no-verification looks like:
+the lawyers asked the same chat window to check its own work, and it
+vouched for its own fabrications. When a committee or a journal asks us
+to defend a number, ``the AI produced it'' is not an answer they will
+accept, and it should not be one we accept either.}
 \end{frame}
 
-\begin{frame}{4. AI agents: Your pipeline is the guardrail that keeps AI
-transparent}
-\phantomsection\label{ai-agents-your-pipeline-is-the-guardrail-that-keeps-ai-transparent}
+\begin{frame}{4. AI agents: Your pipeline is the guardrail}
+\phantomsection\label{ai-agents-your-pipeline-is-the-guardrail}
+\begin{columns}[T]
+\begin{column}{0.52\linewidth}
 \begin{itemize}
 \tightlist
 \item
-  Numbered folders scope what the agent may touch
+  \textbf{Numbered folders} scope what the agent may touch
 \item
-  ``\emph{0\_data}'' stays read-only, always
+  ``\emph{0\_data}'' stays read-only: the one hard rule
 \item
-  git turns every agent edit into a diff
+  \textbf{git} turns every agent edit into a reviewable diff
 \item
-  make is the contract that verifies results
+  \textbf{make} verifies every number with one command
 \item
-  README gives the agent project context
+  \textbf{README + AGENTS.md} are the agent's onboarding memo
 \end{itemize}
+\end{column}
+
+\begin{column}{0.48\linewidth}
+\pandocbounded{\includegraphics[keepaspectratio]{images/paste-23.png}}
+\end{column}
+\end{columns}
 
 \takeaway{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
@@ -1349,10 +1500,13 @@ so an agent editing 1\_code has no business touching 3\_output by hand.
 data is never regenerated or overwritten. Because everything lives in
 git, any change the agent makes shows up as a diff we can read before
 committing it. make is the contract: if the pipeline runs clean from raw
-data to draft, the result is verified, not just plausible. A README
-gives the agent the same onboarding a new collaborator would need. None
-of this requires trusting the agent's judgment, it requires trusting the
-guardrails we already built.}
+data to draft, the result is verified, not just plausible. The file on
+the right is real and now ships with the example repository. AGENTS.md
+is ``a README for agents'': an open standard since 2025, used in over
+sixty thousand repositories and read by most major tools, while Claude
+Code reads a CLAUDE.md. It gives the agent the same onboarding a new
+collaborator would need. None of this requires trusting the agent's
+judgment, it requires trusting the guardrails we already built.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The agent edits, you review the diff}
@@ -1364,13 +1518,12 @@ guardrails we already built.}
 \item
   Prompt: winsorize scaled earnings at 1st/99th percentile
 \item
-  Agent edits ``\emph{1\_code/code.r}'' directly
+  The agent edits ``\emph{1\_code/code.r}'' directly
 \item
   You run git diff before committing
 \item
-  Check: only ``\emph{1\_code}'' touched
-\item
-  Check: winsorize sits before the regression
+  Check: only ``\emph{1\_code}'' touched, and the step sits before the
+  regression
 \item
   Check: ``\emph{0\_data}'' and ``\emph{3\_output}'' untouched by hand
 \end{itemize}
@@ -1398,32 +1551,92 @@ back with exactly what's wrong, the same way we'd redirect a coauthor.}
 
 \begin{frame}{4. AI agents: The agent runs make, you rerun it yourself}
 \phantomsection\label{ai-agents-the-agent-runs-make-you-rerun-it-yourself}
+\begin{columns}[T]
+\begin{column}{0.45\linewidth}
 \begin{itemize}
 \tightlist
 \item
-  Agent runs ``\emph{make -f makefile.mak}''
-\item
-  Reads the error, proposes a fix
+  The agent may run make and fix its own errors
 \item
   Your rule: ``\emph{make clean}'', then ``\emph{make}''
 \item
-  Rerun it yourself, on your machine
+  On your machine, from raw data to drafts
 \item
   Numbers flow from the pipeline, not a chat
 \end{itemize}
+\end{column}
 
-\note{Suppose make -f makefile.mak fails after the agent's edit, maybe a
-data type mismatch in the new winsorizing step. A good agent reads that
-error itself and proposes a fix, the same way it read the file in the
-first place. Letting it iterate is fine. What matters is what we do
-next. Before trusting any number in the draft, we run make clean, wiping
-every intermediate and output file, then make -f makefile.mak from
-scratch, on our own machine, not the agent's sandbox. If the pipeline
-reproduces cleanly from 0\_data through 4\_drafts, the numbers are real.
-This is the payoff from chapter three: because the paper and slides are
-dynamic documents pulling numbers straight from 3\_output, rerunning the
-pipeline re-verifies every number in the draft. None of it comes from a
-chat window, all of it comes from code we can rerun.}
+\begin{column}{0.55\linewidth}
+\pandocbounded{\includegraphics[keepaspectratio]{images/paste-22.png}}
+\end{column}
+\end{columns}
+
+\note{Suppose make fails after the agent's edit, maybe a data type
+mismatch in the new winsorizing step. A good agent reads that error
+itself and proposes a fix, the same way it read the file in the first
+place. Letting it iterate is fine. What matters is what we do next.
+Before trusting any number in the draft, we run make clean, wiping every
+intermediate and output file, then make from scratch, on our own
+machine, not the agent's sandbox. If the pipeline reproduces cleanly
+from 0\_data through 4\_drafts, the numbers are real. This is the payoff
+from chapter three: because the paper and slides are dynamic documents
+pulling numbers straight from 3\_output, rerunning the pipeline
+re-verifies every number in the draft. None of it comes from a chat
+window, all of it comes from code we can rerun.}
+\end{frame}
+
+\begin{frame}{4. AI agents: What leaves your machine, and what do you
+disclose?}
+\phantomsection\label{ai-agents-what-leaves-your-machine-and-what-do-you-disclose}
+\begin{columns}[T]
+\begin{column}{0.5\linewidth}
+\textbf{Before you paste}
+
+\begin{itemize}
+\tightlist
+\item
+  Assume consumer chat apps train on and keep what you paste
+\item
+  Keep licensed data (WRDS, Compustat) and confidential data out; check
+  the license first
+\item
+  Use institutional or API access, or a local model, for sensitive
+  projects
+\end{itemize}
+\end{column}
+
+\begin{column}{0.5\linewidth}
+\textbf{Before you submit}
+
+\begin{itemize}
+\tightlist
+\item
+  Disclose GenAI use: \emph{CAR} wants it described ``transparently and
+  in detail'' in Methods
+\item
+  Never list AI as an author; the responsibility stays yours
+\item
+  Log model, prompt, and validation: an AI Use Statement in your README
+\end{itemize}
+\end{column}
+\end{columns}
+
+\source{CAR editorial policies (2024); ICMJE/COPE; World Bank, Documenting AI Use for Reproducible Research (2026)}
+
+\note{Two checklists, one for data going out, one for text coming in. On
+privacy, the default settings of consumer chat apps can use our pastes
+for training and keep them for years, while API and institutional tiers
+do not train by default, and a local model sends nothing at all.
+Licensed databases like WRDS or Compustat restrict redistribution, so
+check the license before an extract goes anywhere. At a European school,
+GDPR adds its own transfer rules for personal data. On disclosure, our
+own journals moved first: CAR has required a declaration since 2024, and
+management journals are broadening what counts as disclosable AI use.
+Management Science also bars reviewers from uploading manuscripts into
+these tools, so confidentiality cuts both ways. The last line is the
+cheapest insurance: keep the model name, the prompt, and how you
+validated the output with the project, and your methods section writes
+itself.}
 \end{frame}
 
 \begin{frame}{4. AI agents: Where could an agent silently break your
@@ -1431,17 +1644,9 @@ project?}
 \phantomsection\label{ai-agents-where-could-an-agent-silently-break-your-project}
 \discussionprompt{Where could an AI agent silently break your research project? Think alone (2 min), compare with your neighbor (2 min), share one risk with the room (1 min).}
 
-\begin{itemize}
-\tightlist
-\item
-  Think (2 min): where could an agent break things unnoticed?
-\item
-  Pair (2 min): compare notes, agree on top risk
-\item
-  Share (1 min): one risk per pair, aloud
-\item
-  Debrief: name the pattern, not just the example
-\end{itemize}
+\bigbreak
+
+Debrief: name the pattern, not just the example.
 
 \note{For the next five minutes, work through this in three stages.
 First, two minutes alone: where in our own workflow could an agent make
@@ -1463,53 +1668,41 @@ because the goal is not a perfect list, it's noticing that these failure
 modes are all about visibility, not about the AI itself.}
 \end{frame}
 
-\begin{frame}{4. AI agents: Rules of engagement for reproducible AI use}
-\phantomsection\label{ai-agents-rules-of-engagement-for-reproducible-ai-use}
-\begin{itemize}
-\tightlist
-\item
-  Opaque AI use breaks reproducibility
-\item
-  Your pipeline is the agent's guardrail
-\item
-  Review the diff, rerun make, every time
-\end{itemize}
-
-\small
-
+\begin{frame}{4. AI agents: Rules of engagement}
+\phantomsection\label{ai-agents-rules-of-engagement}
 \begin{columns}[T]
-\begin{column}{0.55\linewidth}
+\begin{column}{0.5\linewidth}
 \textbf{Do}
 
 \begin{itemize}
 \tightlist
 \item
-  Agent works inside the repo
+  Let the agent work inside the repo, under git
 \item
-  Raw data in ``\emph{0\_data}'' stays read-only
+  Keep ``\emph{0\_data}'' read-only, always
 \item
   Review every diff before committing
 \item
   Rerun the pipeline before trusting a number
-\item
-  Credentials live in environment variables
 \end{itemize}
 \end{column}
 
-\begin{column}{0.45\linewidth}
+\begin{column}{0.5\linewidth}
 \textbf{Never}
 
 \begin{itemize}
 \tightlist
 \item
-  Chat-window analyses copied into the draft
+  Numbers from a chat window into a draft
 \item
-  Confidential data pasted into a chat
+  Confidential or licensed data into a chat
+\item
+  Undisclosed AI use in a submission
+\item
+  Hand-edits to ``\emph{3\_output}'', by you or the agent
 \end{itemize}
 \end{column}
 \end{columns}
-
-\normalsize
 
 \takeaway{AI amplifies your data management. The pipeline turns it from a black box into a reviewable collaborator.}
 
@@ -1517,13 +1710,13 @@ modes are all about visibility, not about the AI itself.}
 windows and untracked edits, produces numbers nobody can defend. Second,
 the pipeline we built today is exactly what keeps an agent transparent:
 it works in files, under git, against make. Third, the routine is short.
-We read the diff before we commit, and we rerun the pipeline before we
-trust a number. Two honest caveats. Output is often wrong, confidently
-wrong, so verification is not optional. And skipping AI entirely remains
-a valid way to do a PhD. When the agent added our winsorizing step, the
-diff showed one changed file in 1\_code, and a clean make rebuilt the
-same table in the draft. That is what owning an AI-assisted result looks
-like.}
+We read the diff before we commit, we rerun the pipeline before we trust
+a number, and we disclose the use when we submit. Two honest caveats.
+Output is often wrong, confidently wrong, so verification is not
+optional. And skipping AI entirely remains a valid way to do a PhD. When
+the agent added our winsorizing step, the diff showed one changed file
+in 1\_code, and a clean make rebuilt the same table in the draft. That
+is what owning an AI-assisted result looks like.}
 \end{frame}
 
 \begin{frame}{Summary and Wrap-up}
@@ -1533,7 +1726,7 @@ like.}
 \item
   Across all fields of science, reproducibility has been under threat
   (Open Science Collaboration 2015; Baker 2016; Camerer et al. 2016;
-  Hail, Lang, and Leuz 2020; Fišar et al. 2023)
+  Hail, Lang, and Leuz 2020; Fišar et al. 2024)
 \item
   Good data management is vital to ensure results are reproducible.
 \item
@@ -1582,7 +1775,7 @@ Example Files (github.com/victorvanpelt/research\_pipeline\_example)}}
   \end{itemize}
 \item
   Many journals and institutions offer ways to pre-register and collect
-  research all materials (not just data and code) in one place.
+  all research materials (not just data and code) in one place.
 
   \begin{itemize}
   \tightlist
@@ -1591,7 +1784,13 @@ Example Files (github.com/victorvanpelt/research\_pipeline\_example)}}
   \end{itemize}
 \item
   My recommendation is to use the \href{https://osf.io/}{\textbf{Open
-  Science Foundation}}
+  Science Framework (OSF)}}
+\item
+  Steal a template: the
+  \href{https://www.projecttier.org/tier-protocol/protocol-4-0/}{\textbf{TIER
+  Protocol}} and the
+  \href{https://social-science-data-editors.github.io/template_README/}{\textbf{AEA
+  template README}}
 \end{itemize}
 \end{frame}
 
@@ -1620,20 +1819,20 @@ Tel.: +49 (0)261 6509 483\\
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \bibitem[\citeproctext]{ref-B_2016}
-Baker, Monya. 2016. {``Reproducibility Crisis.''} \emph{Nature} 533
-(26): 353--66. \url{https://doi.org/10.1038/533452a}.
+Baker, Monya. 2016. {``1,500 Scientists Lift the Lid on
+Reproducibility.''} \emph{Nature} 533 (7604): 452--54.
+\url{https://doi.org/10.1038/533452a}.
 
 \bibitem[\citeproctext]{ref-CDF_2016}
 Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
 Magnus Johannesson, Michael Kirchler, et al. 2016. {``Evaluating
 Replicability of Laboratory Experiments in Economics.''} \emph{Science}
-351 (6280): 1433--36.
-\url{https://doi.org/doi.org/10.1126/science.aaf0918}.
+351 (6280): 1433--36. \url{https://doi.org/10.1126/science.aaf0918}.
 
 \bibitem[\citeproctext]{ref-FGHKO_2023}
-Fišar, Miloš, Ben Greiner, Christoph Huber, Elena Katok, and Ali I. and
-Ozkes. 2023. {``Reproducibility in Management Science.''}
-\emph{Management Science}.
+Fišar, Miloš, Ben Greiner, Christoph Huber, Elena Katok, and Ali I.
+Ozkes. 2024. {``Reproducibility in Management Science.''}
+\emph{Management Science} 70 (3): 1343--56.
 \url{https://doi.org/10.1287/mnsc.2023.03556}.
 
 \bibitem[\citeproctext]{ref-HLL_2000}
