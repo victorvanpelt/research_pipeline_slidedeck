@@ -180,6 +180,13 @@
   {\usebeamerfont{footnote}\textcolor{whu_anthracite}{Source: #1}}%
 }
 
+% ── AGENTS.md rule tag at bottom of slide ──────────────────────
+% Usage: \agentrule{Never modify the raw data in 0\_data/. It is read-only.}
+\newcommand{\agentrule}[1]{%
+  \vfill
+  {\usebeamerfont{footnote}\itshape\textcolor{whu_anthracite}{AGENTS.md: ``#1''}}%
+}
+
 % ── Single stat callout ────────────────────────────────────────
 % Usage: \statcallout{42\%}{of firms use AI in forecasting}
 \newcommand{\statcallout}[2]{%

@@ -137,7 +137,8 @@ Following principles is critical, especially for projects with lots of data and 
 -   Use plenty of comments to explain what the code is doing.
 -   Be as descriptive as you can in folder and file names.
 -   Use environment variables for credentials and software paths.
--   Follow a template for a research pipeline ([**TIER Protocol**](https://www.projecttier.org/tier-protocol/protocol-4-0/)).
+-   Follow a template for a research pipeline ([**TIER Protocol**](https://www.projecttier.org/tier-protocol/protocol-4-0/)); the example repository follows its concept.
+    -   E.g., a codebook ("*0_data/codebook.md*") defines each variable and the data's origin.
 
 ## 1. Directory Structure: A simple starting point
 
@@ -162,6 +163,8 @@ Let's take a closer look at how this works in practice (using Stata, R, and Quar
 [**Clone this repository!**](https://github.com/victorvanpelt/research_pipeline_example)
 
 [**github.com/victorvanpelt/research_pipeline_example**](https://github.com/victorvanpelt/research_pipeline_example)
+
+The repository also ships a rulebook for AI agents ("*AGENTS.md*"): more in chapter 4.
 
 ## 1. Directory Structure: Stata do-file under "1_code/"
 
@@ -191,7 +194,7 @@ A makefile states which outputs depend on which code and data, and how to rebuil
 
 \centering
 
-You run "*make*" in the CLI to rebuild everything, or a single step with "*make r*", "*make stata*", "*make paper*", or "*make slides*" ![](images/paste-16.png){fig-align="center" height="125"}
+You run "*make*" in the CLI to rebuild everything, or a single step with "*make r*", "*make stata*", "*make appendix*", "*make paper*", or "*make slides*" ![](images/paste-16.png){fig-align="center" height="125"}
 
 ## 1. Directory Structure: Is your code slow?
 
@@ -348,7 +351,7 @@ Usage:
 
 -   Quarto uses .qmd files. Check the [**guide**](https://quarto.org/docs/guide/).
 -   You can produce output in formats, such as .pptx, .docx, .pdf and integrate R and Stata code.
--   The example repository uses Quarto to render a paper and a presentation ("*4_drafts/*") that pull their numbers and tables straight from the pipeline.
+-   The example repository uses Quarto to render a paper, a presentation, and a data appendix ("*4_drafts/*") that pull their numbers and tables straight from the pipeline.
 -   It also contains a self-contained literate report ("*1_code/code.qmd*").
 
 ## 3. Integrating multiple languages: Quarto Presentation Example
@@ -391,7 +394,7 @@ Usage:
 
 \centering
 
-"*make paper*" and "*make slides*" render the Quarto drafts from the pipeline's output
+"*make appendix*", "*make paper*", and "*make slides*" render the Quarto drafts from the pipeline's output
 
 ![](images/paste-13.png){fig-align="center" height="215"}
 
@@ -463,7 +466,7 @@ This is the whole chapter in one rule, and it answers the opening question. The 
 
 \bigbreak
 
-\highlightbox{Code the agent wrote yesterday still runs in ten years. The model that probablistically wrote it will not.}
+\highlightbox{Code the agent wrote yesterday still runs in ten years. The model that probabilistically wrote it will not.}
 
 ## 4. AI agents: What you ask for, what you never accept
 
@@ -489,19 +492,21 @@ This is the whole chapter in one rule, and it answers the opening question. The 
 :::
 :::::
 
+\agentrule{Never modify the raw data in 0\_data/. It is read-only. The exception is 0\_data/codebook.md, which is hand-maintained documentation: update it whenever the data change.}
+
 ::: notes
 Everything on the left ends as code in the repo, which means everything on the left is checkable. The merge is the running example: the agent writes 1_code/merge.r, and we can even ask it to add its own checks, row counts before and after, unique firm-year identifiers. That makes an AI-written merge easier to audit than a hand merge ever was. The right column is one family: finished artifacts. If it is data, a number, or a figure, and it did not come out of the pipeline, it does not enter the project. Citations sit there too, because models invent plausible references with real journal names.
 :::
 
-## 4. AI agents: Set the rules before it starts
+## 4. AI agents: AGENTS.md, the rulebook of your repo
 
 ::::: columns
 ::: {.column width="52%"}
--   **Numbered folders** scope what the agent may touch
--   "*0_data*" stays read-only: the one hard rule
--   **git** turns every agent edit into a reviewable diff
--   **make** verifies every number with one command
--   **README + AGENTS.md** are the agent's onboarding memo
+-   One file in the repo root states the rules for any agent
+-   Scope: help in "*1_code*" and "*4_drafts*" only
+-   "*0_data*" stays read-only; "*2_process*" and "*3_output*" are rebuilt, never hand-edited
+-   It may run *make*; it may never commit or push
+-   The rules from chapters 1-3, written down for the agent
 :::
 
 ::: {.column width="48%"}
@@ -512,7 +517,7 @@ Everything on the left ends as code in the repo, which means everything on the l
 \highlightbox{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
 ::: notes
-The same structure from chapters one through three is what makes agents safe to use. Numbered folders already scope what belongs where, so an agent editing 1_code has no business touching 3_output by hand. 0_data stays read-only for the agent exactly as it does for us, real data is never regenerated or overwritten. Because everything lives in git, any change the agent makes shows up as a diff we can read before committing it. make is the contract: if the pipeline runs clean from raw data to draft, the result is verified, not just plausible. The file on the right is real and ships with the example repository. AGENTS.md is a README for agents, a convention most coding agents read, and Claude Code reads a CLAUDE.md. It gives the agent the same onboarding a new collaborator would need. None of this requires trusting the agent's judgment, it requires trusting the guardrails we already built.
+This file ships with the example repository, and it already appeared in the chapter one screenshot. AGENTS.md is a README for agents and agentic systems, a convention most of these tools read: Claude Code, OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The bullets on the left are the file's actual rules. It helps in 1_code and 4_drafts only. Raw data stays read-only, with one exception: the codebook is hand-maintained documentation, and the agent must keep it in sync with the data. Intermediates and outputs are rebuilt by the pipeline, never edited by hand. The three engines must stay in sync, so a change to code.r lands in code.do and code.qmd too; only the appendix block is exempt, because the Quarto report skips it. Credentials never enter the repo, the same environment-variable rule from chapter one. The Build section hands the agent the make targets, so it can check its own work. And the last rule bans git commit and git push: the agent leaves the diff for us. The next three slides are these rules in action.
 :::
 
 ## 4. AI agents: The agent edits code, you review the diff
@@ -530,6 +535,8 @@ The same structure from chapters one through three is what makes agents safe to 
 ![](images/paste-20.png)
 :::
 :::::
+
+\agentrule{Help the user make changes in 1\_code/ (analysis) or 4\_drafts/ (paper, slides, and data appendix sources) only.}
 
 ::: notes
 Say we ask an agent to add a robustness check: winsorize scaled earnings at the first and ninety-ninth percentile before the main regression. The agent opens 1_code/code.r, adds the step, and reports back that it's done. Before committing anything, we run git diff and actually read it. Three things matter. First, scope: does the diff touch only 1_code, or did the agent also poke at 0_data or 3_output? It should be 1_code only, everything else gets derived by rerunning the pipeline, never hand-edited. Second, placement: is the winsorizing step inserted before the regression that uses it, not bolted onto the end of the file? Third, is anything changed by hand outside the code, a number pasted into a table, a figure edited directly? If the diff is clean on all three, we commit it with a clear message. If not, we send the agent back with exactly what's wrong, the same way we'd redirect a coauthor.
@@ -550,6 +557,8 @@ Say we ask an agent to add a robustness check: winsorize scaled earnings at the 
 :::
 :::::
 
+\agentrule{A change is done only when make clean followed by make completes without errors and every number in the 4\_drafts/ outputs comes from the rerun pipeline, not from hand edits.}
+
 ::: notes
 Suppose make fails after the agent's edit, maybe a data type mismatch in the new winsorizing step. A good agent reads that error itself and proposes a fix, the same way it read the file in the first place. Letting it iterate is fine. What matters is what we do next. Before trusting any number in the draft, we run make clean, wiping every intermediate and output file, then make from scratch, on our own machine, not the agent's sandbox. If the pipeline reproduces cleanly from 0_data through 4_drafts, the numbers are real. This is the payoff from chapter three: because the paper and slides are dynamic documents pulling numbers straight from 3_output, rerunning the pipeline re-verifies every number in the draft. None of it comes from a chat window, all of it comes from code we can rerun. One more reason the rerun matters: agents are built to please, and pushed for a result they will sooner produce a plausible number than admit failure. Our own make run is the one test that cannot be flattered.
 :::
@@ -569,6 +578,8 @@ Suppose make fails after the agent's edit, maybe a data type mismatch in the new
 :::
 :::::
 
+\agentrule{Never run git commit or git push. Leave changes in the working tree for the maintainer to review and commit.}
+
 ::: notes
 A diff shows what is changing right now. The commit history shows what changed ever. Keep commits small, one change each, and write messages that say why. When a supervisor asks in March what the agent touched in January, the answer is git log, not memory. For bigger changes, have the agent work on a branch and open a pull request; then review is not a habit, it is a gate. The screenshot is the example repository's own history, including a commit an agent helped write, and yes, also a few older messages that just say "update." Do as I say, not as I did.
 :::
@@ -583,6 +594,7 @@ A diff shows what is changing right now. The commit history shows what changed e
 -   Let the agent work inside the repo, under git
 -   Review every diff before committing
 -   Rerun the pipeline before trusting a number
+-   Set the rules once, in "*AGENTS.md*"
 :::
 
 ::: {.column width="50%"}
