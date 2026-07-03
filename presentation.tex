@@ -320,6 +320,13 @@
   {\usebeamerfont{footnote}\textcolor{whu_anthracite}{Source: #1}}%
 }
 
+% ── AGENTS.md rule tag at bottom of slide ──────────────────────
+% Usage: \agentrule{Never modify the raw data in 0\_data/. It is read-only.}
+\newcommand{\agentrule}[1]{%
+  \vfill
+  {\usebeamerfont{footnote}\itshape\textcolor{whu_anthracite}{AGENTS.md: ``#1''}}%
+}
+
 % ── Single stat callout ────────────────────────────────────────
 % Usage: \statcallout{42\%}{of firms use AI in forecasting}
 \newcommand{\statcallout}[2]{%
@@ -761,7 +768,14 @@ data and code:
 \item
   Follow a template for a research pipeline
   (\href{https://www.projecttier.org/tier-protocol/protocol-4-0/}{\textbf{TIER
-  Protocol}}).
+  Protocol}}); the example repository follows its concept.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g., a codebook (``\emph{0\_data/codebook.md}'') defines each
+    variable and the data's origin.
+  \end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -786,12 +800,15 @@ data and code:
 Let's take a closer look at how this works in practice (using Stata, R,
 and Quarto):
 
-\includegraphics[width=3.33333in,height=\textheight,keepaspectratio]{images/paste-7.png}
+\includegraphics[width=3.02083in,height=\textheight,keepaspectratio]{images/paste-7.png}
 
 \href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{Clone
 this repository!}}
 
 \href{https://github.com/victorvanpelt/research_pipeline_example}{\textbf{github.com/victorvanpelt/research\_pipeline\_example}}
+
+The repository also ships a rulebook for AI agents
+(``\emph{AGENTS.md}''): more in chapter 4.
 \end{frame}
 
 \begin{frame}{1. Directory Structure: Stata do-file under ``1\_code/''}
@@ -834,7 +851,8 @@ to rebuild them \begin{center}
 
 You run ``\emph{make}'' in the CLI to rebuild everything, or a single
 step with ``\emph{make r}'', ``\emph{make stata}'', ``\emph{make
-paper}'', or ``\emph{make slides}'' \begin{center}
+appendix}'', ``\emph{make paper}'', or ``\emph{make slides}''
+\begin{center}
 \includegraphics[width=\linewidth,height=1.30208in,keepaspectratio]{images/paste-16.png}
 \end{center}
 \end{frame}
@@ -1211,9 +1229,9 @@ Usage:
   You can produce output in formats, such as .pptx, .docx, .pdf and
   integrate R and Stata code.
 \item
-  The example repository uses Quarto to render a paper and a
-  presentation (``\emph{4\_drafts/}'') that pull their numbers and
-  tables straight from the pipeline.
+  The example repository uses Quarto to render a paper, a presentation,
+  and a data appendix (``\emph{4\_drafts/}'') that pull their numbers
+  and tables straight from the pipeline.
 \item
   It also contains a self-contained literate report
   (``\emph{1\_code/code.qmd}'').
@@ -1264,8 +1282,8 @@ Example}
 \phantomsection\label{integrating-multiple-languages-makefile.mak-extension}
 \centering
 
-``\emph{make paper}'' and ``\emph{make slides}'' render the Quarto
-drafts from the pipeline's output
+``\emph{make appendix}'', ``\emph{make paper}'', and ``\emph{make
+slides}'' render the Quarto drafts from the pipeline's output
 
 \begin{center}
 \includegraphics[width=\linewidth,height=2.23958in,keepaspectratio]{images/paste-13.png}
@@ -1386,7 +1404,7 @@ choice it made is visible.}
 
 \bigbreak
 
-\highlightbox{Code the agent wrote yesterday still runs in ten years. The model that probablistically wrote it will not.}
+\highlightbox{Code the agent wrote yesterday still runs in ten years. The model that probabilistically wrote it will not.}
 \end{frame}
 
 \begin{frame}{4. AI agents: What you ask for, what you never accept}
@@ -1429,6 +1447,8 @@ choice it made is visible.}
 \end{column}
 \end{columns}
 
+\agentrule{Never modify the raw data in 0\_data/. It is read-only. The exception is 0\_data/codebook.md, which is hand-maintained documentation: update it whenever the data change.}
+
 \note{Everything on the left ends as code in the repo, which means
 everything on the left is checkable. The merge is the running example:
 the agent writes 1\_code/merge.r, and we can even ask it to add its own
@@ -1440,22 +1460,23 @@ not enter the project. Citations sit there too, because models invent
 plausible references with real journal names.}
 \end{frame}
 
-\begin{frame}{4. AI agents: Set the rules before it starts}
-\phantomsection\label{ai-agents-set-the-rules-before-it-starts}
+\begin{frame}{4. AI agents: AGENTS.md, the rulebook of your repo}
+\phantomsection\label{ai-agents-agents.md-the-rulebook-of-your-repo}
 \begin{columns}[T]
 \begin{column}{0.52\linewidth}
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Numbered folders} scope what the agent may touch
+  One file in the repo root states the rules for any agent
 \item
-  ``\emph{0\_data}'' stays read-only: the one hard rule
+  Scope: help in ``\emph{1\_code}'' and ``\emph{4\_drafts}'' only
 \item
-  \textbf{git} turns every agent edit into a reviewable diff
+  ``\emph{0\_data}'' stays read-only; ``\emph{2\_process}'' and
+  ``\emph{3\_output}'' are rebuilt, never hand-edited
 \item
-  \textbf{make} verifies every number with one command
+  It may run \emph{make}; it may never commit or push
 \item
-  \textbf{README + AGENTS.md} are the agent's onboarding memo
+  The rules from chapters 1-3, written down for the agent
 \end{itemize}
 \end{column}
 
@@ -1466,19 +1487,21 @@ plausible references with real journal names.}
 
 \highlightbox{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
-\note{The same structure from chapters one through three is what makes
-agents safe to use. Numbered folders already scope what belongs where,
-so an agent editing 1\_code has no business touching 3\_output by hand.
-0\_data stays read-only for the agent exactly as it does for us, real
-data is never regenerated or overwritten. Because everything lives in
-git, any change the agent makes shows up as a diff we can read before
-committing it. make is the contract: if the pipeline runs clean from raw
-data to draft, the result is verified, not just plausible. The file on
-the right is real and ships with the example repository. AGENTS.md is a
-README for agents, a convention most coding agents read, and Claude Code
-reads a CLAUDE.md. It gives the agent the same onboarding a new
-collaborator would need. None of this requires trusting the agent's
-judgment, it requires trusting the guardrails we already built.}
+\note{This file ships with the example repository, and it already
+appeared in the chapter one screenshot. AGENTS.md is a README for agents
+and agentic systems, a convention most of these tools read: Claude Code,
+OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The
+bullets on the left are the file's actual rules. It helps in 1\_code and
+4\_drafts only. Raw data stays read-only, with one exception: the
+codebook is hand-maintained documentation, and the agent must keep it in
+sync with the data. Intermediates and outputs are rebuilt by the
+pipeline, never edited by hand. The three engines must stay in sync, so
+a change to code.r lands in code.do and code.qmd too; only the appendix
+block is exempt, because the Quarto report skips it. Credentials never
+enter the repo, the same environment-variable rule from chapter one. The
+Build section hands the agent the make targets, so it can check its own
+work. And the last rule bans git commit and git push: the agent leaves
+the diff for us. The next three slides are these rules in action.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The agent edits code, you review the diff}
@@ -1505,6 +1528,8 @@ judgment, it requires trusting the guardrails we already built.}
 \pandocbounded{\includegraphics[keepaspectratio]{images/paste-20.png}}
 \end{column}
 \end{columns}
+
+\agentrule{Help the user make changes in 1\_code/ (analysis) or 4\_drafts/ (paper, slides, and data appendix sources) only.}
 
 \note{Say we ask an agent to add a robustness check: winsorize scaled
 earnings at the first and ninety-ninth percentile before the main
@@ -1542,6 +1567,8 @@ back with exactly what's wrong, the same way we'd redirect a coauthor.}
 \pandocbounded{\includegraphics[keepaspectratio]{images/paste-22.png}}
 \end{column}
 \end{columns}
+
+\agentrule{A change is done only when make clean followed by make completes without errors and every number in the 4\_drafts/ outputs comes from the rerun pipeline, not from hand edits.}
 
 \note{Suppose make fails after the agent's edit, maybe a data type
 mismatch in the new winsorizing step. A good agent reads that error
@@ -1583,6 +1610,8 @@ run is the one test that cannot be flattered.}
 \end{column}
 \end{columns}
 
+\agentrule{Never run git commit or git push. Leave changes in the working tree for the maintainer to review and commit.}
+
 \note{A diff shows what is changing right now. The commit history shows
 what changed ever. Keep commits small, one change each, and write
 messages that say why. When a supervisor asks in March what the agent
@@ -1610,6 +1639,8 @@ not as I did.}
   Review every diff before committing
 \item
   Rerun the pipeline before trusting a number
+\item
+  Set the rules once, in ``\emph{AGENTS.md}''
 \end{itemize}
 \end{column}
 

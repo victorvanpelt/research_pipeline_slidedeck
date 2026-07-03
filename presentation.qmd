@@ -158,7 +158,7 @@ Following principles is critical, especially for projects with lots of data and 
 
 Let's take a closer look at how this works in practice (using Stata, R, and Quarto):
 
-![](images/paste-7.png){width="320"}
+![](images/paste-7.png){width="290"}
 
 [**Clone this repository!**](https://github.com/victorvanpelt/research_pipeline_example)
 
