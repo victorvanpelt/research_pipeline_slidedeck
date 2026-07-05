@@ -13,6 +13,3 @@ bunfig.toml
 .yarnrc*
 .env
 .env.*
-
-# Self-study lesson package (local working material, not part of the deck)
-ai_agents_package/
