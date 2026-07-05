@@ -1341,16 +1341,57 @@ revises until it works. That loop, read, edit, run, read errors, fix, is
 what turns a chatbot into a collaborator inside the pipeline.}
 \end{frame}
 
+\begin{frame}{4. AI agents: Two ground rules before any tool}
+\phantomsection\label{ai-agents-two-ground-rules-before-any-tool}
+\begin{itemize}
+\tightlist
+\item
+  Ground rule 1: agents change quickly
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Tool-specific setup rots within months; the repo ships none
+  \end{itemize}
+\item
+  Ground rule 2: every person has their own solution
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Coauthors bring different agents; the shared repo stays
+    agent-agnostic
+  \end{itemize}
+\item
+  The one agent file that ships: ``\emph{AGENTS.md}'', tool-neutral
+  rules for all
+\end{itemize}
+
+\bigbreak
+
+\highlightbox{Your agent setup is personal. The rules it follows are shared.}
+
+\note{Before any tool, two ground rules. First, agentic coding is
+evolving rapidly. Any tool-specific setup we ship today might be
+obsolete within a week, so the repository ships none. Second, every
+person has their own solution. One coauthor uses one vendor's agent, the
+next another's, a third uses none at all, and all of these are fine. So
+nothing in the shared repository may depend on anyone's choice. The one
+agent file that does ship is AGENTS.md, tool-neutral by design and read
+by more than 20 different tools. We return to that file in a few slides.
+Think of it this way: your agent setup is personal, like your editor.
+The rules it follows are shared, like the folder structure and the
+makefile.}
+\end{frame}
+
 \begin{frame}{4. AI agents: The one rule}
 \phantomsection\label{ai-agents-the-one-rule}
 \begin{itemize}
 \tightlist
 \item
-  An agent can hand you a merged dataset, a finished table, a perfect
-  figure
+  An agent can hand you a merged dataset, table, or figure
 \item
-  The problem: no code behind it. You cannot rerun it, check it, or fix
-  it
+  The problem: no code behind it: nothing to rerun, check, or fix
 \item
   So: everything AI contributes arrives as code in the repository
 \item
@@ -1492,25 +1533,27 @@ plausible references with real journal names.}
 
 \note{This file ships with the example repository, and it already
 appeared in the chapter one screenshot. AGENTS.md is a README for agents
-and agentic systems, a convention most of these tools read: Claude Code,
-OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The
-bullets on the left are the file's actual rules. It helps in 1\_code and
-4\_drafts only. Raw data stays read-only, with one exception: the
-codebook is hand-maintained documentation, and the agent must keep it in
-sync with the data. Intermediates and outputs are rebuilt by the
-pipeline, never edited by hand. The three engines must stay in sync, so
-a change to code.r lands in code.do and code.qmd too; only the appendix
-block is exempt, because the Quarto report skips it. Credentials never
-enter the repo, the same environment-variable rule from chapter one. Two
-rules are newer. Before a change that touches more than one file, the
-agent states its plan first. And it cleans up any scratch files it
-creates: the folder structure is fixed. The screenshot shows the rules;
-below them, the file hands the agent the make targets and ends with a
-verification checklist: rebuild, confirm the drafts regenerated, run git
-status, and report anything it could not verify. The line to remember:
-it should work is not verification. And the rule that anchors it all
-bans git commit and git push: the agent leaves the diff for us. The next
-three slides are these rules in action.}
+and agentic systems, a convention read by more than 20 tools, including
+Claude Code, OpenAI Codex, Hermes, and Cursor. This is ground rule 2 at
+work: one tool-neutral file serves whichever agent each coauthor brings.
+Claude Code also reads a CLAUDE.md. The bullets on the left are the
+file's actual rules. It helps in 1\_code and 4\_drafts only. Raw data
+stays read-only, with one exception: the codebook is hand-maintained
+documentation, and the agent must keep it in sync with the data.
+Intermediates and outputs are rebuilt by the pipeline, never edited by
+hand. The three engines must stay in sync, so a change to code.r lands
+in code.do and code.qmd too; only the appendix block is exempt, because
+the Quarto report skips it. Credentials never enter the repo, the same
+environment-variable rule from chapter one. Two rules are newer. Before
+a change that touches more than one file, the agent states its plan
+first. And it cleans up any scratch files it creates: the folder
+structure is fixed. The screenshot shows the rules; below them, the file
+hands the agent the make targets and ends with a verification checklist:
+rebuild, confirm the drafts regenerated, run git status, and report
+anything it could not verify. The line to remember: it should work is
+not verification. And the rule that anchors it all bans git commit and
+git push: the agent leaves the diff for us. The next three slides are
+these rules in action.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The agent edits code, you review the diff}
@@ -1568,6 +1611,9 @@ back with exactly what's wrong, the same way we'd redirect a coauthor.}
 \item
   Your rule: ``\emph{make clean}'', then ``\emph{make}''
 \item
+  Plain ``\emph{make}'' rebuilds R only; other engines need ``\emph{make
+  stata}'', ``\emph{make quarto}''
+\item
   On your machine, from raw data to drafts
 \item
   Numbers flow from the pipeline, not a chat
@@ -1592,10 +1638,14 @@ from 0\_data through 4\_drafts, the numbers are real. This is the payoff
 from chapter three: because the paper and slides are dynamic documents
 pulling numbers straight from 3\_output, rerunning the pipeline
 re-verifies every number in the draft. None of it comes from a chat
-window, all of it comes from code we can rerun. One more reason the
-rerun matters: agents are built to please, and pushed for a result they
-will sooner produce a plausible number than admit failure. Our own make
-run is the one test that cannot be flattered.}
+window, all of it comes from code we can rerun. One nuance from the
+example repository: plain make rebuilds the R engine only. If the agent
+also touched code.do or code.qmd, run make stata and make quarto too.
+Both engines write the same table, so the comparison catches drift, like
+R and Stata defining percentiles differently. One more reason the rerun
+matters: agents are built to please, and pushed for a result they will
+sooner produce a plausible number than admit failure. Our own make run
+is the one test that cannot be flattered.}
 \end{frame}
 
 \begin{frame}{4. AI agents: Commit the change, keep the trail}
@@ -1607,12 +1657,11 @@ run is the one test that cannot be flattered.}
 \item
   One change, one commit; the message says what changed and why
 \item
-  The commit history becomes your log of what the agent did, and when
+  The commit history becomes your log of what the agent did
 \item
-  Bigger changes: let the agent work on a branch, review it as a pull
-  request
+  Bigger changes: agent works on a branch, you review the pull request
 \item
-  This is how you check an agent's work weeks later, not just today
+  This is how you check an agent's work weeks later
 \end{itemize}
 \end{column}
 
@@ -1652,6 +1701,8 @@ not as I did.}
   Rerun the pipeline before trusting a number
 \item
   Set the rules once, in ``\emph{AGENTS.md}''
+\item
+  Bring your own agent; keep the shared repo agnostic
 \end{itemize}
 \end{column}
 
@@ -1680,7 +1731,10 @@ code that does the work, it must never do the work. Second, the pipeline
 we built today is exactly what keeps an agent honest: it works in files,
 under git, against make. Third, the routine is short. We read the diff
 before we commit, we rerun the pipeline before we trust a number, and we
-keep the trail in the commit history. Two lines deserve a sentence each.
+keep the trail in the commit history. And the two ground rules from the
+start of the chapter hold at the team level: agents keep changing,
+coauthors keep differing, so the shared repository stays agent-agnostic
+and ships only the rulebook. Two lines deserve a sentence each.
 Confidential or licensed data, think WRDS or Compustat extracts, never
 enters a chat window; check the license, and use institutional access or
 a local model when in doubt. And disclosure: check your target journal's

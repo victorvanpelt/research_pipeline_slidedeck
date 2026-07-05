@@ -429,10 +429,26 @@ Let the room answer first. Two or three hands, no correcting yet. The answer we 
 A chat window is just a text box: we paste in code or a question, the model answers, and we paste the answer back into our files by hand. Nothing the model does touches the project directly. An agent works differently. Think of cooking: instead of texting a friend for a recipe fix, we hand them the kitchen. They open the fridge, see what's actually there, adjust the dish, taste it, adjust again. An agent like Claude Code, OpenAI Codex, GitHub Copilot, or Cursor reads our actual files, edits code in place, runs make, reads the error that comes back, and revises until it works. That loop, read, edit, run, read errors, fix, is what turns a chatbot into a collaborator inside the pipeline.
 :::
 
+## 4. AI agents: Two ground rules before any tool
+
+-   Ground rule 1: agents change quickly
+    -   Tool-specific setup rots within months; the repo ships none
+-   Ground rule 2: every person has their own solution
+    -   Coauthors bring different agents; the shared repo stays agent-agnostic
+-   The one agent file that ships: "*AGENTS.md*", tool-neutral rules for all
+
+\bigbreak
+
+\highlightbox{Your agent setup is personal. The rules it follows are shared.}
+
+::: notes
+Before any tool, two ground rules. First, agentic coding is evolving rapidly. Any tool-specific setup we ship today might be obsolete within a week, so the repository ships none. Second, every person has their own solution. One coauthor uses one vendor's agent, the next another's, a third uses none at all, and all of these are fine. So nothing in the shared repository may depend on anyone's choice. The one agent file that does ship is AGENTS.md, tool-neutral by design and read by more than 20 different tools. We return to that file in a few slides. Think of it this way: your agent setup is personal, like your editor. The rules it follows are shared, like the folder structure and the makefile.
+:::
+
 ## 4. AI agents: The one rule
 
--   An agent can hand you a merged dataset, a finished table, a perfect figure
--   The problem: no code behind it. You cannot rerun it, check it, or fix it
+-   An agent can hand you a merged dataset, table, or figure
+-   The problem: no code behind it: nothing to rerun, check, or fix
 -   So: everything AI contributes arrives as code in the repository
 -   Never as data, never as numbers, never as results
 
@@ -518,7 +534,7 @@ Everything on the left ends as code in the repo, which means everything on the l
 \highlightbox{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
 ::: notes
-This file ships with the example repository, and it already appeared in the chapter one screenshot. AGENTS.md is a README for agents and agentic systems, a convention most of these tools read: Claude Code, OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The bullets on the left are the file's actual rules. It helps in 1_code and 4_drafts only. Raw data stays read-only, with one exception: the codebook is hand-maintained documentation, and the agent must keep it in sync with the data. Intermediates and outputs are rebuilt by the pipeline, never edited by hand. The three engines must stay in sync, so a change to code.r lands in code.do and code.qmd too; only the appendix block is exempt, because the Quarto report skips it. Credentials never enter the repo, the same environment-variable rule from chapter one. Two rules are newer. Before a change that touches more than one file, the agent states its plan first. And it cleans up any scratch files it creates: the folder structure is fixed. The screenshot shows the rules; below them, the file hands the agent the make targets and ends with a verification checklist: rebuild, confirm the drafts regenerated, run git status, and report anything it could not verify. The line to remember: it should work is not verification. And the rule that anchors it all bans git commit and git push: the agent leaves the diff for us. The next three slides are these rules in action.
+This file ships with the example repository, and it already appeared in the chapter one screenshot. AGENTS.md is a README for agents and agentic systems, a convention read by more than 20 tools, including Claude Code, OpenAI Codex, Hermes, and Cursor. This is ground rule 2 at work: one tool-neutral file serves whichever agent each coauthor brings. Claude Code also reads a CLAUDE.md. The bullets on the left are the file's actual rules. It helps in 1_code and 4_drafts only. Raw data stays read-only, with one exception: the codebook is hand-maintained documentation, and the agent must keep it in sync with the data. Intermediates and outputs are rebuilt by the pipeline, never edited by hand. The three engines must stay in sync, so a change to code.r lands in code.do and code.qmd too; only the appendix block is exempt, because the Quarto report skips it. Credentials never enter the repo, the same environment-variable rule from chapter one. Two rules are newer. Before a change that touches more than one file, the agent states its plan first. And it cleans up any scratch files it creates: the folder structure is fixed. The screenshot shows the rules; below them, the file hands the agent the make targets and ends with a verification checklist: rebuild, confirm the drafts regenerated, run git status, and report anything it could not verify. The line to remember: it should work is not verification. And the rule that anchors it all bans git commit and git push: the agent leaves the diff for us. The next three slides are these rules in action.
 :::
 
 ## 4. AI agents: The agent edits code, you review the diff
@@ -550,6 +566,7 @@ Say we ask an agent to add a robustness check: winsorize scaled earnings at the 
 ::: {.column width="45%"}
 -   The agent may run make and fix its own errors
 -   Your rule: "*make clean*", then "*make*"
+-   Plain "*make*" rebuilds R only; other engines need "*make stata*", "*make quarto*"
 -   On your machine, from raw data to drafts
 -   Numbers flow from the pipeline, not a chat
 :::
@@ -562,7 +579,7 @@ Say we ask an agent to add a robustness check: winsorize scaled earnings at the 
 \agentrule{A change is done only when make clean followed by make completes without errors and every number in the 4\_drafts/ outputs comes from the rerun pipeline, not from hand edits.}
 
 ::: notes
-Suppose make fails after the agent's edit, maybe a data type mismatch in the new winsorizing step. A good agent reads that error itself and proposes a fix, the same way it read the file in the first place. Letting it iterate is fine. What matters is what we do next. Before trusting any number in the draft, we run make clean, wiping every intermediate and output file, then make from scratch, on our own machine, not the agent's sandbox. If the pipeline reproduces cleanly from 0_data through 4_drafts, the numbers are real. This is the payoff from chapter three: because the paper and slides are dynamic documents pulling numbers straight from 3_output, rerunning the pipeline re-verifies every number in the draft. None of it comes from a chat window, all of it comes from code we can rerun. One more reason the rerun matters: agents are built to please, and pushed for a result they will sooner produce a plausible number than admit failure. Our own make run is the one test that cannot be flattered.
+Suppose make fails after the agent's edit, maybe a data type mismatch in the new winsorizing step. A good agent reads that error itself and proposes a fix, the same way it read the file in the first place. Letting it iterate is fine. What matters is what we do next. Before trusting any number in the draft, we run make clean, wiping every intermediate and output file, then make from scratch, on our own machine, not the agent's sandbox. If the pipeline reproduces cleanly from 0_data through 4_drafts, the numbers are real. This is the payoff from chapter three: because the paper and slides are dynamic documents pulling numbers straight from 3_output, rerunning the pipeline re-verifies every number in the draft. None of it comes from a chat window, all of it comes from code we can rerun. One nuance from the example repository: plain make rebuilds the R engine only. If the agent also touched code.do or code.qmd, run make stata and make quarto too. Both engines write the same table, so the comparison catches drift, like R and Stata defining percentiles differently. One more reason the rerun matters: agents are built to please, and pushed for a result they will sooner produce a plausible number than admit failure. Our own make run is the one test that cannot be flattered.
 :::
 
 ## 4. AI agents: Commit the change, keep the trail
@@ -570,9 +587,9 @@ Suppose make fails after the agent's edit, maybe a data type mismatch in the new
 ::::: columns
 ::: {.column width="45%"}
 -   One change, one commit; the message says what changed and why
--   The commit history becomes your log of what the agent did, and when
--   Bigger changes: let the agent work on a branch, review it as a pull request
--   This is how you check an agent's work weeks later, not just today
+-   The commit history becomes your log of what the agent did
+-   Bigger changes: agent works on a branch, you review the pull request
+-   This is how you check an agent's work weeks later
 :::
 
 ::: {.column width="55%"}
@@ -597,6 +614,7 @@ A diff shows what is changing right now. The commit history shows what changed e
 -   Review every diff before committing
 -   Rerun the pipeline before trusting a number
 -   Set the rules once, in "*AGENTS.md*"
+-   Bring your own agent; keep the shared repo agnostic
 :::
 
 ::: {.column width="50%"}
@@ -612,7 +630,7 @@ A diff shows what is changing right now. The commit history shows what changed e
 \highlightbox{AI amplifies your research productivity, but the pipeline turns it from a black box into a reviewable collaborator.}
 
 ::: notes
-Three things to take home. First, the one rule: AI may write the code that does the work, it must never do the work. Second, the pipeline we built today is exactly what keeps an agent honest: it works in files, under git, against make. Third, the routine is short. We read the diff before we commit, we rerun the pipeline before we trust a number, and we keep the trail in the commit history. Two lines deserve a sentence each. Confidential or licensed data, think WRDS or Compustat extracts, never enters a chat window; check the license, and use institutional access or a local model when in doubt. And disclosure: check your target journal's policy before submitting; the commit trail plus a short note in the README is exactly the log you will need. One honest caveat to close: skipping AI entirely remains a valid way to do a PhD. But if you use it, own it: when the agent added our winsorizing step, the diff showed one changed file in 1_code, and a clean make rebuilt the same table in the draft. That is what owning an AI-assisted result looks like.
+Three things to take home. First, the one rule: AI may write the code that does the work, it must never do the work. Second, the pipeline we built today is exactly what keeps an agent honest: it works in files, under git, against make. Third, the routine is short. We read the diff before we commit, we rerun the pipeline before we trust a number, and we keep the trail in the commit history. And the two ground rules from the start of the chapter hold at the team level: agents keep changing, coauthors keep differing, so the shared repository stays agent-agnostic and ships only the rulebook. Two lines deserve a sentence each. Confidential or licensed data, think WRDS or Compustat extracts, never enters a chat window; check the license, and use institutional access or a local model when in doubt. And disclosure: check your target journal's policy before submitting; the commit trail plus a short note in the README is exactly the log you will need. One honest caveat to close: skipping AI entirely remains a valid way to do a PhD. But if you use it, own it: when the agent added our winsorizing step, the diff showed one changed file in 1_code, and a clean make rebuilt the same table in the draft. That is what owning an AI-assisted result looks like.
 :::
 
 ## Summary and Wrap-up
