@@ -506,6 +506,7 @@ Everything on the left ends as code in the repo, which means everything on the l
 -   Scope: help in "*1_code*" and "*4_drafts*" only
 -   "*0_data*" stays read-only; "*2_process*" and "*3_output*" are rebuilt, never hand-edited
 -   It may run *make*; it may never commit or push
+-   It must verify before it reports: "*it should work*" is not verification
 -   The rules from chapters 1-3, written down for the agent
 :::
 
@@ -517,7 +518,7 @@ Everything on the left ends as code in the repo, which means everything on the l
 \highlightbox{Your pipeline does not need to trust the agent, only to verify what it changed.}
 
 ::: notes
-This file ships with the example repository, and it already appeared in the chapter one screenshot. AGENTS.md is a README for agents and agentic systems, a convention most of these tools read: Claude Code, OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The bullets on the left are the file's actual rules. It helps in 1_code and 4_drafts only. Raw data stays read-only, with one exception: the codebook is hand-maintained documentation, and the agent must keep it in sync with the data. Intermediates and outputs are rebuilt by the pipeline, never edited by hand. The three engines must stay in sync, so a change to code.r lands in code.do and code.qmd too; only the appendix block is exempt, because the Quarto report skips it. Credentials never enter the repo, the same environment-variable rule from chapter one. The Build section hands the agent the make targets, so it can check its own work. And the last rule bans git commit and git push: the agent leaves the diff for us. The next three slides are these rules in action.
+This file ships with the example repository, and it already appeared in the chapter one screenshot. AGENTS.md is a README for agents and agentic systems, a convention most of these tools read: Claude Code, OpenAI Codex, Hermes, Cursor. Claude Code also reads a CLAUDE.md. The bullets on the left are the file's actual rules. It helps in 1_code and 4_drafts only. Raw data stays read-only, with one exception: the codebook is hand-maintained documentation, and the agent must keep it in sync with the data. Intermediates and outputs are rebuilt by the pipeline, never edited by hand. The three engines must stay in sync, so a change to code.r lands in code.do and code.qmd too; only the appendix block is exempt, because the Quarto report skips it. Credentials never enter the repo, the same environment-variable rule from chapter one. Two rules are newer. Before a change that touches more than one file, the agent states its plan first. And it cleans up any scratch files it creates: the folder structure is fixed. The screenshot shows the rules; below them, the file hands the agent the make targets and ends with a verification checklist: rebuild, confirm the drafts regenerated, run git status, and report anything it could not verify. The line to remember: it should work is not verification. And the rule that anchors it all bans git commit and git push: the agent leaves the diff for us. The next three slides are these rules in action.
 :::
 
 ## 4. AI agents: The agent edits code, you review the diff
@@ -529,6 +530,7 @@ This file ships with the example repository, and it already appeared in the chap
 -   You run git diff before committing
 -   Check: only "*1_code*" touched, and the step sits before the regression
 -   Check: "*0_data*" and "*3_output*" untouched?
+-   Try it yourself: the repo's README ships this exact exercise
 :::
 
 ::: {.column width="58%"}

@@ -544,7 +544,7 @@
 \title{Data Management}
 \subtitle{Doctoral Orientation Week}
 \author{Dr.~Victor van Pelt}
-\date{July 3, 2026}
+\date{July 5, 2026}
 \institute{WHU -- Otto Beisheim School of Management}
 
 \begin{document}
@@ -1476,6 +1476,9 @@ plausible references with real journal names.}
 \item
   It may run \emph{make}; it may never commit or push
 \item
+  It must verify before it reports: ``\emph{it should work}'' is not
+  verification
+\item
   The rules from chapters 1-3, written down for the agent
 \end{itemize}
 \end{column}
@@ -1498,10 +1501,16 @@ sync with the data. Intermediates and outputs are rebuilt by the
 pipeline, never edited by hand. The three engines must stay in sync, so
 a change to code.r lands in code.do and code.qmd too; only the appendix
 block is exempt, because the Quarto report skips it. Credentials never
-enter the repo, the same environment-variable rule from chapter one. The
-Build section hands the agent the make targets, so it can check its own
-work. And the last rule bans git commit and git push: the agent leaves
-the diff for us. The next three slides are these rules in action.}
+enter the repo, the same environment-variable rule from chapter one. Two
+rules are newer. Before a change that touches more than one file, the
+agent states its plan first. And it cleans up any scratch files it
+creates: the folder structure is fixed. The screenshot shows the rules;
+below them, the file hands the agent the make targets and ends with a
+verification checklist: rebuild, confirm the drafts regenerated, run git
+status, and report anything it could not verify. The line to remember:
+it should work is not verification. And the rule that anchors it all
+bans git commit and git push: the agent leaves the diff for us. The next
+three slides are these rules in action.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The agent edits code, you review the diff}
@@ -1521,6 +1530,8 @@ the diff for us. The next three slides are these rules in action.}
   regression
 \item
   Check: ``\emph{0\_data}'' and ``\emph{3\_output}'' untouched?
+\item
+  Try it yourself: the repo's README ships this exact exercise
 \end{itemize}
 \end{column}
 
