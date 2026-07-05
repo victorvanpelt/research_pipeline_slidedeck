@@ -1,0 +1,15 @@
+# Local AI-agent configuration; not part of the deck
+.claude/
+.mcp.json
+
+# Zero-byte junk some local process keeps creating
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bunfig.toml
+.npmrc
+.yarnrc*
+.env
+.env.*
