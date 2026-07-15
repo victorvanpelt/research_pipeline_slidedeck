@@ -535,16 +535,17 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Data Management},
+  pdftitle={From Raw Data to Finished Paper: Building a Reproducible Research Pipeline},
   pdfauthor={Dr.~Victor van Pelt},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 
-\title{Data Management}
+\title{From Raw Data to Finished Paper: Building a Reproducible Research
+Pipeline}
 \subtitle{Doctoral Orientation Week}
 \author{Dr.~Victor van Pelt}
-\date{July 5, 2026}
+\date{July 15, 2026}
 \institute{WHU -- Otto Beisheim School of Management}
 
 \begin{document}
@@ -691,8 +692,8 @@ data and software were accessible, over 95\% could (Fišar et al. 2024)
 \item
   Integrating multiple languages: Example using Quarto
 \item
-  AI agents and systems: Using them on your pipeline without losing
-  reproducibility
+  AI agents and systems: Using them without losing reproducibility, plus
+  advice for your own setup
 \end{enumerate}
 \end{frame}
 
@@ -1294,15 +1295,18 @@ slides}'' render the Quarto drafts from the pipeline's output
 
 \begin{frame}{4. AI agents: Opening question}
 \phantomsection\label{ai-agents-opening-question}
-Let's say that an AI agent or system can take your data and produce the
-perfect tables and figures for your paper. What is the main problem with
-this approach?
+You share a research repository with two coauthors. Each of you has an
+AI agent working in it, and each agent edits files and runs commands on
+its own. What could go wrong?
 
 \note{Let the room answer first. Two or three hands, no correcting yet.
-The answer we are building toward: nobody, including you, can rerun or
-defend those numbers. There is no code behind them and no record of how
-they were made. This chapter is about getting AI's help without ending
-up there.}
+Good answers all move in one direction: nobody can say anymore what
+changed, why, or whether the results still rebuild. One agent edits the
+raw data, another patches a table by hand, a third pastes in numbers
+with no code behind them. Three coauthors, three tools, three sets of
+habits, one shared repository. This chapter works through that problem:
+first the damage, then the shared rulebook that prevents it, and at the
+end advice for your own personal setup.}
 \end{frame}
 
 \begin{frame}{4. AI agents: From chatbots to agents inside your project}
@@ -1341,47 +1345,38 @@ revises until it works. That loop, read, edit, run, read errors, fix, is
 what turns a chatbot into a collaborator inside the pipeline.}
 \end{frame}
 
-\begin{frame}{4. AI agents: Two ground rules before any tool}
-\phantomsection\label{ai-agents-two-ground-rules-before-any-tool}
+\begin{frame}{4. AI agents: The problem, a shared repo full of agents}
+\phantomsection\label{ai-agents-the-problem-a-shared-repo-full-of-agents}
 \begin{itemize}
 \tightlist
 \item
-  Ground rule 1: agents change quickly
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Tool-specific setup rots within months; the repo ships none
-  \end{itemize}
+  Every coauthor brings a different agent, or none at all
 \item
-  Ground rule 2: every person has their own solution
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Coauthors bring different agents; the shared repo stays
-    agent-agnostic
-  \end{itemize}
+  Agents act autonomously: they edit files and run commands
 \item
-  The one agent file that ships: ``\emph{AGENTS.md}'', tool-neutral
-  rules for all
+  Tools change monthly; tool-specific setups rot fast
+\item
+  Without shared rules: edited raw data, patched outputs, results
+  without code
 \end{itemize}
 
 \bigbreak
 
 \highlightbox{Your agent setup is personal. The rules it follows are shared.}
 
-\note{Before any tool, two ground rules. First, agentic coding is
-evolving rapidly. Any tool-specific setup we ship today might be
-obsolete within a week, so the repository ships none. Second, every
-person has their own solution. One coauthor uses one vendor's agent, the
-next another's, a third uses none at all, and all of these are fine. So
-nothing in the shared repository may depend on anyone's choice. The one
-agent file that does ship is AGENTS.md, tool-neutral by design and read
-by more than 20 different tools. We return to that file in a few slides.
-Think of it this way: your agent setup is personal, like your editor.
-The rules it follows are shared, like the folder structure and the
-makefile.}
+\note{Here is the situation this chapter solves. A shared repository,
+and every coauthor brings their own agent. One uses one vendor's tool,
+the next another's, a third none at all, and all of that is fine. These
+agents and agentic systems do not just answer questions; they edit files
+and run commands on their own. And the tools change monthly, so any
+tool-specific setup we ship today rots within months. Now picture the
+repository after a week without rules. Raw data edited in place, an
+output table patched by hand, a number in the draft that no code
+produced. Each agent behaved reasonably by its own defaults; together
+they destroyed the one thing the pipeline guarantees, that everything
+rebuilds from raw data. Two principles carry the rest of the chapter.
+Your agent setup is personal, like your editor. The rules it follows are
+shared, like the folder structure and the makefile.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The one rule}
@@ -1391,118 +1386,38 @@ makefile.}
 \item
   An agent can hand you a merged dataset, table, or figure
 \item
-  The problem: no code behind it: nothing to rerun, check, or fix
+  No code behind it: nothing to rerun, check, or fix
+\item
+  Your pipeline reruns: every step is code, written down, versioned
+\item
+  An AI act cannot: same prompt, different answer, chat gone tomorrow
 \item
   So: everything AI contributes arrives as code in the repository
-\item
-  Never as data, never as numbers, never as results
 \end{itemize}
 
 \bigbreak
 
 \highlightbox{AI may write the code that does the work. It must never \textbf{do} the work.}
 
-\note{This is the whole chapter in one rule, and it answers the opening
-question. The agent may produce code, and only code. The moment it hands
-us a finished artifact, a merged file, a table, a figure, we hold a
-result with no recipe. If the AI did the work, ask it again for the code
-that does the work. If it cannot write that code, the result was never
-real. And once the merge lives in 1\_code, it reruns forever, and every
-choice it made is visible.}
+\note{Suppose an agent takes your data and hands you the perfect table
+for your paper. That is the worst thing that can happen in this chapter.
+A result with no recipe: nothing to rerun, nothing to check, nothing to
+fix. Contrast that with the pipeline from chapters one to three. It
+reruns because it is code plus raw data, one command, every step written
+down and versioned. An AI act has none of that. The same prompt gives a
+different answer tomorrow, the model gets retired, and the chat that
+held your data and context is gone. Code the agent wrote yesterday still
+runs in ten years; the model that probabilistically wrote it will not.
+So the one rule: the agent may produce code, and only code. Never data,
+never numbers, never results. If the AI did the work, ask it again for
+the code that does the work. If it cannot write that code, the result
+was never real. Once the merge lives in 1\_code, it reruns forever, and
+every choice it made is visible.}
 \end{frame}
 
-\begin{frame}{4. AI agents: Why ``the AI did it'' never reproduces}
-\phantomsection\label{ai-agents-why-the-ai-did-it-never-reproduces}
-\begin{columns}[T]
-\begin{column}{0.5\linewidth}
-\textbf{Your pipeline reruns because}
-
-\begin{itemize}
-\tightlist
-\item
-  It is code plus raw data
-\item
-  One command rebuilds everything
-\item
-  Every step is written down and versioned
-\end{itemize}
-\end{column}
-
-\begin{column}{0.5\linewidth}
-\textbf{An AI act cannot rerun because}
-
-\begin{itemize}
-\tightlist
-\item
-  Same prompt, different answer
-\item
-  The model gets retired
-\item
-  The chat that held your data and context is gone tomorrow
-\end{itemize}
-\end{column}
-\end{columns}
-
-\bigbreak
-
-\highlightbox{Code the agent wrote yesterday still runs in ten years. The model that probabilistically wrote it will not.}
-\end{frame}
-
-\begin{frame}{4. AI agents: What you ask for, what you never accept}
-\phantomsection\label{ai-agents-what-you-ask-for-what-you-never-accept}
-\begin{columns}[T]
-\begin{column}{0.5\linewidth}
-\textbf{Ask the agent to write code that\ldots{}}
-
-\begin{itemize}
-\tightlist
-\item
-  Merges and cleans your data (``\emph{1\_code/merge.r}'')
-\item
-  Adds a robustness check
-\item
-  Translates ``\emph{code.do}'' into ``\emph{code.r}''
-\item
-  Extends the makefile
-\item
-  Adds sanity checks (row counts, unique IDs)
-\item
-  Audits the repo
-\end{itemize}
-\end{column}
-
-\begin{column}{0.5\linewidth}
-\textbf{Never accept from an agent\ldots{}}
-
-\begin{itemize}
-\tightlist
-\item
-  A merged or cleaned dataset
-\item
-  A table, figure, or coefficient
-\item
-  A direct edit to ``\emph{0\_data}'' or ``\emph{3\_output}''
-\item
-  A citation you did not verify yourself
-\end{itemize}
-\end{column}
-\end{columns}
-
-\agentrule{Never modify the raw data in 0\_data/. It is read-only. The exception is 0\_data/codebook.md, which is hand-maintained documentation: update it whenever the data change.}
-
-\note{Everything on the left ends as code in the repo, which means
-everything on the left is checkable. The merge is the running example:
-the agent writes 1\_code/merge.r, and we can even ask it to add its own
-checks, row counts before and after, unique firm-year identifiers. That
-makes an AI-written merge easier to audit than a hand merge ever was.
-The right column is one family: finished artifacts. If it is data, a
-number, or a figure, and it did not come out of the pipeline, it does
-not enter the project. Citations sit there too, because models invent
-plausible references with real journal names.}
-\end{frame}
-
-\begin{frame}{4. AI agents: AGENTS.md, the rulebook of your repo}
-\phantomsection\label{ai-agents-agents.md-the-rulebook-of-your-repo}
+\begin{frame}{4. AI agents: The solution, a shared rulebook called
+AGENTS.md}
+\phantomsection\label{ai-agents-the-solution-a-shared-rulebook-called-agents.md}
 \begin{columns}[T]
 \begin{column}{0.52\linewidth}
 \begin{itemize}
@@ -1534,26 +1449,26 @@ plausible references with real journal names.}
 \note{This file ships with the example repository, and it already
 appeared in the chapter one screenshot. AGENTS.md is a README for agents
 and agentic systems, a convention read by more than 20 tools, including
-Claude Code, OpenAI Codex, Hermes, and Cursor. This is ground rule 2 at
-work: one tool-neutral file serves whichever agent each coauthor brings.
-Claude Code also reads a CLAUDE.md. The bullets on the left are the
-file's actual rules. It helps in 1\_code and 4\_drafts only. Raw data
-stays read-only, with one exception: the codebook is hand-maintained
-documentation, and the agent must keep it in sync with the data.
-Intermediates and outputs are rebuilt by the pipeline, never edited by
-hand. The three engines must stay in sync, so a change to code.r lands
-in code.do and code.qmd too; only the appendix block is exempt, because
-the Quarto report skips it. Credentials never enter the repo, the same
-environment-variable rule from chapter one. Two rules are newer. Before
-a change that touches more than one file, the agent states its plan
-first. And it cleans up any scratch files it creates: the folder
-structure is fixed. The screenshot shows the rules; below them, the file
-hands the agent the make targets and ends with a verification checklist:
-rebuild, confirm the drafts regenerated, run git status, and report
-anything it could not verify. The line to remember: it should work is
-not verification. And the rule that anchors it all bans git commit and
-git push: the agent leaves the diff for us. The next three slides are
-these rules in action.}
+Claude Code, OpenAI Codex, Hermes, and Cursor. This is the answer to the
+opening problem: one tool-neutral file serves whichever agent each
+coauthor brings. Claude Code also reads a CLAUDE.md. The bullets on the
+left are the file's actual rules. It helps in 1\_code and 4\_drafts
+only. Raw data stays read-only, with one exception: the codebook is
+hand-maintained documentation, and the agent must keep it in sync with
+the data. Intermediates and outputs are rebuilt by the pipeline, never
+edited by hand. The three engines must stay in sync, so a change to
+code.r lands in code.do and code.qmd too; only the appendix block is
+exempt, because the Quarto report skips it. Credentials never enter the
+repo, the same environment-variable rule from chapter one. Two rules are
+newer. Before a change that touches more than one file, the agent states
+its plan first. And it cleans up any scratch files it creates: the
+folder structure is fixed. The screenshot shows the rules; below them,
+the file hands the agent the make targets and ends with a verification
+checklist: rebuild, confirm the drafts regenerated, run git status, and
+report anything it could not verify. The line to remember: it should
+work is not verification. And the rule that anchors it all bans git
+commit and git push: the agent leaves the diff for us. The next three
+slides are these rules in action.}
 \end{frame}
 
 \begin{frame}{4. AI agents: The agent edits code, you review the diff}
@@ -1692,7 +1607,8 @@ not as I did.}
 \begin{itemize}
 \tightlist
 \item
-  Ask for code, not results
+  Ask for code: merges, robustness checks, engine translations, makefile
+  targets
 \item
   Let the agent work inside the repo, under git
 \item
@@ -1701,8 +1617,6 @@ not as I did.}
   Rerun the pipeline before trusting a number
 \item
   Set the rules once, in ``\emph{AGENTS.md}''
-\item
-  Bring your own agent; keep the shared repo agnostic
 \end{itemize}
 \end{column}
 
@@ -1712,7 +1626,9 @@ not as I did.}
 \begin{itemize}
 \tightlist
 \item
-  A dataset, table, or number straight from an AI
+  A dataset, table, or coefficient straight from an AI
+\item
+  A citation you did not verify yourself
 \item
   Confidential or licensed data into a chat
 \item
@@ -1724,26 +1640,145 @@ not as I did.}
 \end{column}
 \end{columns}
 
-\highlightbox{AI amplifies your research productivity, but the pipeline turns it from a black box into a reviewable collaborator.}
+\agentrule{Never modify the raw data in 0\_data/. It is read-only. The exception is 0\_data/codebook.md, which is hand-maintained documentation: update it whenever the data change.}
 
-\note{Three things to take home. First, the one rule: AI may write the
-code that does the work, it must never do the work. Second, the pipeline
-we built today is exactly what keeps an agent honest: it works in files,
-under git, against make. Third, the routine is short. We read the diff
-before we commit, we rerun the pipeline before we trust a number, and we
-keep the trail in the commit history. And the two ground rules from the
-start of the chapter hold at the team level: agents keep changing,
-coauthors keep differing, so the shared repository stays agent-agnostic
-and ships only the rulebook. Two lines deserve a sentence each.
-Confidential or licensed data, think WRDS or Compustat extracts, never
-enters a chat window; check the license, and use institutional access or
-a local model when in doubt. And disclosure: check your target journal's
-policy before submitting; the commit trail plus a short note in the
-README is exactly the log you will need. One honest caveat to close:
-skipping AI entirely remains a valid way to do a PhD. But if you use it,
-own it: when the agent added our winsorizing step, the diff showed one
-changed file in 1\_code, and a clean make rebuilt the same table in the
-draft. That is what owning an AI-assisted result looks like.}
+\note{The repository side in one slide. Everything on the left ends as
+code in the repo, which means everything on the left is checkable. The
+merge stays the running example: the agent writes 1\_code/merge.r, with
+its own row counts and identifier checks built in. That makes an
+AI-written merge easier to audit than a hand merge ever was. Then the
+routine we practiced: read the diff before you commit, rerun the
+pipeline before you trust a number, keep the trail in the commit
+history. The right column is one family: things that bypass the
+pipeline. Finished artifacts, because a result without code is not real.
+Citations, because models invent plausible references with real journal
+names. Confidential or licensed data, think WRDS or Compustat extracts,
+never enters a chat window; check the license, and use institutional
+access or a local model when in doubt. And disclosure: check your target
+journal's policy before submitting; the commit trail plus a short note
+in the README is exactly the log you will need. AI amplifies your
+research productivity, but the pipeline turns it from a black box into a
+reviewable collaborator. One honest caveat: skipping AI entirely remains
+a valid way to do a PhD. But if you use it, own it: when the agent added
+our winsorizing step, the diff showed one changed file in 1\_code, and a
+clean make rebuilt the same table in the draft. That is what owning an
+AI-assisted result looks like.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Your own setup, skills and agents}
+\phantomsection\label{ai-agents-your-own-setup-skills-and-agents}
+\begin{itemize}
+\tightlist
+\item
+  The repo ships shared rules; your own setup is personal
+\item
+  A skill: a written procedure that runs where you watch
+\item
+  An agent: works out of sight, returns only a result
+\item
+  Claude Code, OpenAI Codex, and Hermes name them differently
+\end{itemize}
+
+\bigbreak
+
+\highlightbox{A skill shows you the process. An agent hands you a result.}
+
+\note{The shared side is settled: AGENTS.md governs whatever agent or
+agentic system a coauthor brings. What remains is the personal side, and
+it is where the chapter started: your setup is your own. Whichever tool
+you pick, two building blocks keep returning under different names. A
+skill is a written procedure or protocol. It loads when your request
+matches and runs in the main thread, step by step. You watch it work,
+you can interrupt it, and it can stop to ask for your input. Under the
+hood it is a folder of plain files: instructions, helper scripts, and
+examples. An agent is a separate instance with its own context window.
+It takes a task, disappears, works where you cannot see, and returns a
+final result. You can verify only the output, like handing work to
+someone else. Claude Code, OpenAI Codex, and Hermes each have their own
+vocabulary for these two ideas. The names keep shifting; the two ideas
+do not.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Why research leans skill-first}
+\phantomsection\label{ai-agents-why-research-leans-skill-first}
+\begin{itemize}
+\tightlist
+\item
+  Skill-first: skills carry the process, agents get disposable subtasks
+\item
+  Agent-first: thin skills, autonomous agents do the main work
+\item
+  A finding needs a defensible account of how it was obtained
+\item
+  A skill commits you to the steps before the work runs
+\item
+  A quietly skipped check looks exactly like one that passed
+\end{itemize}
+
+\bigbreak
+
+\highlightbox{Automation is not delegation. Automate the boring steps; never delegate the judgment.}
+
+\note{Setups tend toward one of two shapes. Skill-first setups put the
+process in written skills, with phases, checks, and defined output.
+Agents still exist, but skills summon them for small tasks whose
+reasoning nobody needs again. Agent-first setups invert this: skills
+become thin notes, and autonomous agents carry the main work. Both exist
+among researchers, and some peers run a stable of autonomous research
+agents. I gravitate toward skill-first, and the reason is what research
+is. A finding alone is not enough. We also owe a defensible, verifiable
+account of how the finding was obtained. A skill is a commitment device:
+you write the steps before the work runs, like a methodology section.
+The judgment calls still arrive at your desk, one at a time. An agent
+makes those calls for you and shows you only the destination. A
+fabricated citation does not announce itself. A robustness check that
+was quietly skipped looks exactly like one that passed. If you are
+lucky, a coauthor catches it later. If you are not, a referee does. The
+dividing line I use: hand a task to an agent only when its intermediate
+output is disposable, when you would never want to see the reasoning
+again. When the process is the point, and in research it usually is,
+keep it in a skill.}
+\end{frame}
+
+\begin{frame}{4. AI agents: Preliminary advice for your own setup}
+\phantomsection\label{ai-agents-preliminary-advice-for-your-own-setup}
+\begin{itemize}
+\tightlist
+\item
+  Pick one CLI tool; expect to replace it
+\item
+  Write AGENTS.md rules before any automation
+\item
+  Build your first skill around a workflow you repeat
+\item
+  Hand agents only work whose reasoning you can discard
+\item
+  Keep early idea work loose; procedure suppresses variance there
+\end{itemize}
+
+\bigbreak
+
+\highlightbox{Keep the researcher in the loop. Every judgment call still lands on your desk.}
+
+\note{Five starting rules, all provisional, because the tools change
+quickly, as the problem slide said. First, pick one CLI tool and learn
+it properly. Claude Code, OpenAI Codex, Hermes, any of them. Expect to
+replace it within a year. The tool is disposable; the procedures you
+write are not, they move with you. Second, the rulebook comes before the
+automation. Every project gets an AGENTS.md, exactly like the example
+repository, so any tool you or a coauthor brings plays by the same
+rules. Third, build your first skill around a workflow you already
+repeat. Mine revises working papers: it parses the feedback into tasks,
+drafts a roadmap, and walks me through it. Every edit is still my call;
+the skill keeps the order and does the boring parts. Fourth, agents get
+the work whose reasoning you can throw away. A lookup, a conversion, a
+repo audit. Never the analysis, never the citations, never the writing.
+Fifth, the honest exception: early idea work. A fixed procedure there is
+a straitjacket; it suppresses exactly the variance you need. Stay loose
+until the idea has shape, then bring in the process. The thread through
+all five: keep the researcher in the loop. If you delegate the whole
+process, you will get output, but you will slowly stop being the person
+who made it.}
 \end{frame}
 
 \begin{frame}{Summary and Wrap-up}
@@ -1769,6 +1804,12 @@ draft. That is what owning an AI-assisted result looks like.}
     Integrate multiple languages (try Quarto)
   \item
     Let AI write pipeline code; never let it do the research for you
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Prefer a skill-first setup: keep the researcher in the loop
+    \end{itemize}
   \end{enumerate}
 \item
   If you don't want to do it for science, then do it to save yourself
