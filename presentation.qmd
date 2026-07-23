@@ -96,7 +96,7 @@ Across all articles under the new policy, 68% could be reproduced. When data and
     -   My own mistakes and personal experience
 -   Let's make this interactive: Interrupt, ask questions, and tell me about your experience.
 -   Disclaimer: Largely through the lens of a quantitative researcher.
--   All materials for this talk are available: [**Example Files**](https://github.com/victorvanpelt/research_pipeline_example) and [**Slides**](https://tinyurl.com/datamanagementslides)
+-   All materials for this talk are available: [**Example Files**](https://github.com/victorvanpelt/research_pipeline_example) and [**Slides**](https://github.com/victorvanpelt/research_pipeline_slidedeck)
 
 ## What will we cover in this session?
 
@@ -642,7 +642,7 @@ Five starting rules, all provisional, because the tools change quickly, as the p
 
 [**Download Example Files (github.com/victorvanpelt/research_pipeline_example)**](https://github.com/victorvanpelt/research_pipeline_example)
 
-[**Download Slides (tinyurl.com/datamanagementslides)**](https://tinyurl.com/datamanagementslides)
+[**Download Slides (github.com/victorvanpelt/research_pipeline_slidedeck)**](https://github.com/victorvanpelt/research_pipeline_slidedeck)
 
 ## Good data management is just the start...
 
