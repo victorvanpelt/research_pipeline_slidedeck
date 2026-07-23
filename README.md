@@ -1,13 +1,13 @@
-# Data Management Session
+# Research Pipeline Slidedeck
 
-Slides for the Data Management session of the Doctoral Orientation Week at WHU - Otto Beisheim School of Management. The session makes the case for managing research data and code deliberately. A well-organized project lets one command reproduce every result, even years later on a new laptop. The closing chapter turns to AI coding agents, with one rule above all: the agent may write the code, it never does the research.
+Slides for "From Raw Data to Finished Paper: Building a Reproducible Research Pipeline", a session of the Doctoral Orientation Week at WHU - Otto Beisheim School of Management. The session makes the case for managing research data and code deliberately. A well-organized project lets one command reproduce every result, even years later on a new laptop. The closing chapter turns to AI coding agents, with one rule above all: the agent may write the code, it never does the research.
 
 The deck is one [Quarto](https://quarto.org) file, `presentation.qmd`, which renders to `presentation.pdf` on the WHU beamer template. Many slides show a real companion repository, the [research pipeline example](https://github.com/victorvanpelt/research_pipeline_example), where raw data go in and one command rebuilds the analysis, the paper, and the slides.
 
 ## Repository structure
 
 ```
-data_management_session/
+research_pipeline_slidedeck/
 ├── presentation.qmd   the deck's source; this is the file to edit
 ├── presentation.pdf   the rendered slides
 ├── presentation.tex   intermediate LaTeX from the render (kept for debugging)
@@ -23,8 +23,8 @@ data_management_session/
 ## Building the slides
 
 ```bash
-git clone https://github.com/victorvanpelt/data_management_session.git
-cd data_management_session
+git clone https://github.com/victorvanpelt/research_pipeline_slidedeck.git
+cd research_pipeline_slidedeck
 make
 ```
 

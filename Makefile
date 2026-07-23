@@ -1,4 +1,4 @@
-# Build tasks for the Data Management session slides.
+# Build tasks for the Research Pipeline Slidedeck.
 # `make` renders presentation.qmd to presentation.pdf with Quarto.
 
 QUARTO ?= quarto
